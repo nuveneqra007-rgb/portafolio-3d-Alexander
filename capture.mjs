@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 
-const proj = { url: 'https://cokelab.vercel.app/', name: 'cokelab.png' };
+const proj = { url: 'https://aim-trainerrr.vercel.app/', name: 'aim-trainer.png' };
 
 (async () => {
   try {
