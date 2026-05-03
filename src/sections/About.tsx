@@ -110,9 +110,11 @@ export default function About() {
       className="relative w-full py-32 lg:py-48 overflow-hidden"
       style={{ backgroundColor: '#000000' }}
     >
+
+
       {/* Background gradient */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none z-0"
         style={{
           background: 'radial-gradient(ellipse at 50% 30%, rgba(0, 0, 139, 0.08) 0%, transparent 60%)',
         }}

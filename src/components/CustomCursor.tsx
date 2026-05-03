@@ -28,49 +28,40 @@ export default function CustomCursor() {
       requestAnimationFrame(animateRing);
     };
 
-    const handleMouseEnter = () => setHovering(true);
-    const handleMouseLeave = () => setHovering(false);
+    // Event delegation for hover states (O(1) memory instead of MutationObserver leak)
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target && target.closest && target.closest('a, button, input, textarea, [data-cursor-hover]')) {
+        setHovering(true);
+      }
+    };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    const handleMouseOut = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target && target.closest && target.closest('a, button, input, textarea, [data-cursor-hover]')) {
+        setHovering(false);
+      }
+    };
 
-    // Add listeners to interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, input, textarea, [data-cursor-hover]');
-    interactiveElements.forEach(el => {
-      el.addEventListener('mouseenter', handleMouseEnter);
-      el.addEventListener('mouseleave', handleMouseLeave);
-    });
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    document.addEventListener('mouseover', handleMouseOver, { passive: true });
+    document.addEventListener('mouseout', handleMouseOut, { passive: true });
 
     const raf = requestAnimationFrame(animateRing);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseover', handleMouseOver);
+      document.removeEventListener('mouseout', handleMouseOut);
       cancelAnimationFrame(raf);
-      interactiveElements.forEach(el => {
-        el.removeEventListener('mouseenter', handleMouseEnter);
-        el.removeEventListener('mouseleave', handleMouseLeave);
-      });
     };
-  }, []);
-
-  // Re-attach listeners when DOM changes
-  useEffect(() => {
-    const observer = new MutationObserver(() => {
-      const interactiveElements = document.querySelectorAll('a, button, input, textarea, [data-cursor-hover]');
-      interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => setHovering(true));
-        el.addEventListener('mouseleave', () => setHovering(false));
-      });
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-    return () => observer.disconnect();
   }, []);
 
   return (
     <>
       <div
         ref={dotRef}
-        className="pointer-events-none fixed top-0 left-0 z-[10000] mix-blend-difference"
+        className="pointer-events-none fixed top-0 left-0 z-[10000] mix-blend-difference will-change-transform"
         style={{
           width: 8,
           height: 8,
@@ -81,7 +72,7 @@ export default function CustomCursor() {
       />
       <div
         ref={ringRef}
-        className="pointer-events-none fixed top-0 left-0 z-[10000]"
+        className="pointer-events-none fixed top-0 left-0 z-[10000] will-change-transform"
         style={{
           width: hovering ? 48 : 40,
           height: hovering ? 48 : 40,

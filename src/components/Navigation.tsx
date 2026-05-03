@@ -9,25 +9,38 @@ export default function Navigation({ lenisRef }: NavigationProps) {
   const [activeSection, setActiveSection] = useState('hero');
 
   useEffect(() => {
+    // Visibility based on scroll position (for showing/hiding the bar)
     const handleScroll = () => {
       setVisible(window.scrollY > window.innerHeight * 0.8);
-
-      // Determine active section
-      const sections = ['hero', 'about', 'projects', 'contact'];
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
     };
 
+    // Intersection Observer for active section tracking (more efficient than getBoundingClientRect)
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0% -70% 0%', // Detect when section is in upper-middle of screen
+      threshold: 0
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    const sections = ['hero', 'about', 'projects', 'contact'];
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   const scrollTo = (id: string) => {

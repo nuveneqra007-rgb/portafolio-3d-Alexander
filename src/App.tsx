@@ -32,10 +32,14 @@ function App() {
     // Sync Lenis with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
+    // Run GSAP ticker at maximum FPS available (e.g. 120fps)
+    gsap.ticker.fps(120);
+
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
 
+    // lagSmoothing(0) is good, but we want it to handle high refresh rates gracefully
     gsap.ticker.lagSmoothing(0);
 
     return () => {

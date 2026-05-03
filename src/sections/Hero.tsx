@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import ParticleCanvas from '../components/ParticleCanvas';
+import AParticleFormation from '../components/AParticleFormation';
 
 interface HeroProps {
   lenisRef: React.MutableRefObject<any>;
@@ -75,8 +75,8 @@ export default function Hero({ lenisRef }: HeroProps) {
       className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden"
       style={{ backgroundColor: '#000000' }}
     >
-      {/* Particle canvas */}
-      <ParticleCanvas />
+      {/* Epic Particle Formation */}
+      <AParticleFormation />
 
       {/* Grid background */}
       <div className="absolute inset-0 grid-bg opacity-30" />
