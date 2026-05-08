@@ -1,8 +1,6 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Code2 } from 'lucide-react';
-
 gsap.registerPlugin(ScrollTrigger);
 
 const stats = [
@@ -11,19 +9,11 @@ const stats = [
   { value: '100%', label: 'Tasa de Éxito' },
 ];
 
-const skills = [
-  { icon: Code2, label: 'HTML5', items: 'Estructura y semántica' },
-  { icon: Code2, label: 'CSS3', items: 'Diseño y animaciones' },
-  { icon: Code2, label: 'JavaScript', items: 'Lógica e interactividad' },
-  { icon: Code2, label: 'React', items: 'Desarrollo de interfaces' },
-];
-
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
-  const skillsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -44,15 +34,16 @@ export default function About() {
         }
       );
 
-      // Text paragraphs
+      // Code Card animation
       gsap.fromTo(
         textRef.current?.children || [],
-        { opacity: 0, y: 40 },
+        { opacity: 0, y: 40, scale: 0.95 },
         {
           opacity: 1,
           y: 0,
+          scale: 1,
           duration: 0.8,
-          stagger: 0.15,
+          stagger: 0.2,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: textRef.current,
@@ -75,24 +66,6 @@ export default function About() {
           ease: 'back.out(1.7)',
           scrollTrigger: {
             trigger: statsRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
-          },
-        }
-      );
-
-      // Skills
-      gsap.fromTo(
-        skillsRef.current?.children || [],
-        { opacity: 0, x: 50 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.7,
-          stagger: 0.12,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: skillsRef.current,
             start: 'top 80%',
             toggleActions: 'play none none none',
           },
@@ -196,64 +169,90 @@ export default function About() {
             </div>
           </div>
 
-          {/* Right column - Text */}
-          <div className="lg:col-span-7">
-            <div ref={textRef}>
-              <p
-                className="font-body text-lg lg:text-xl leading-relaxed"
-                style={{ color: 'rgba(255, 255, 255, 0.7)' }}
+          {/* Right column - Code Card */}
+          <div className="lg:col-span-7 flex items-center justify-center">
+            <div ref={textRef} className="relative w-full max-w-2xl mt-8 lg:mt-0 z-10" data-cursor-hover>
+              
+              {/* The Card */}
+              <div 
+                className="relative rounded-xl overflow-hidden border transition-all duration-500 hover:border-[rgba(176,224,230,0.3)] w-full"
+                style={{
+                  borderColor: 'rgba(255, 255, 255, 0.08)',
+                  backgroundColor: '#16161e',
+                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                  opacity: 0, // for GSAP
+                }}
               >
-                Soy un desarrollador de 18 años con pasión por crear interfaces modernas y funcionales. Mi enfoque está en perfeccionar mis habilidades técnicas y creativas para entregar proyectos que marquen la diferencia.
-              </p>
-
-              <p
-                className="font-body text-lg lg:text-xl leading-relaxed mt-6"
-                style={{ color: 'rgba(255, 255, 255, 0.5)' }}
-              >
-                Cada proyecto es una oportunidad de aprender algo nuevo, enfrentar desafíos reales y llevar mis habilidades al siguiente nivel.
-              </p>
-            </div>
-
-            {/* Skills */}
-            <div ref={skillsRef} className="mt-12 space-y-4">
-              {skills.map((skill, i) => {
-                const Icon = skill.icon;
-                return (
-                  <div
-                    key={i}
-                    className="flex items-start gap-4 p-4 border transition-all duration-300 hover:border-[rgba(176,224,230,0.3)]"
-                    style={{
-                      borderColor: 'rgba(176, 224, 230, 0.08)',
-                      backgroundColor: 'rgba(176, 224, 230, 0.02)',
-                      opacity: 0,
-                    }}
-                    data-cursor-hover
-                  >
-                    <div
-                      className="w-10 h-10 flex items-center justify-center flex-shrink-0"
-                      style={{
-                        border: '1px solid rgba(176, 224, 230, 0.2)',
-                      }}
-                    >
-                      <Icon size={18} style={{ color: '#B0E0E6' }} />
+                {/* Window Header */}
+                <div className="flex items-center px-4 py-3 border-b" style={{ borderColor: 'rgba(255, 255, 255, 0.05)', backgroundColor: '#1a1a24' }}>
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
+                    <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+                    <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
+                  </div>
+                  <div className="flex-1 text-center font-mono text-xs text-gray-500 font-semibold tracking-wider">
+                    alexander.jsx
+                  </div>
+                </div>
+                
+                {/* Window Body */}
+                <div className="p-6 md:p-8 font-mono text-[13px] sm:text-sm md:text-base overflow-x-auto">
+                  <div className="flex flex-col gap-2.5 min-w-max">
+                    <div>
+                      <span style={{ color: '#c678dd' }}>const</span> <span style={{ color: '#d2a8ff' }}>developer</span> <span style={{ color: '#56b6c2' }}>=</span> <span style={{ color: '#abb2bf' }}>{'{'}</span>
+                    </div>
+                    <div className="pl-6 md:pl-8">
+                      <span style={{ color: '#56b6c2' }}>nombre</span><span style={{ color: '#abb2bf' }}>:</span> <span style={{ color: '#98c379' }}>"Alexander"</span><span style={{ color: '#abb2bf' }}>,</span>
+                    </div>
+                    <div className="pl-6 md:pl-8">
+                      <span style={{ color: '#56b6c2' }}>edad</span><span style={{ color: '#abb2bf' }}>:</span> <span style={{ color: '#d19a66' }}>18</span><span style={{ color: '#abb2bf' }}>,</span>
+                    </div>
+                    <div className="pl-6 md:pl-8">
+                      <span style={{ color: '#56b6c2' }}>rol</span><span style={{ color: '#abb2bf' }}>:</span> <span style={{ color: '#98c379' }}>"Frontend Dev"</span><span style={{ color: '#abb2bf' }}>,</span>
+                    </div>
+                    <div className="pl-6 md:pl-8">
+                      <span style={{ color: '#56b6c2' }}>stack</span><span style={{ color: '#abb2bf' }}>:</span> <span style={{ color: '#abb2bf' }}>[</span>
+                    </div>
+                    <div className="pl-12 md:pl-16">
+                      <span style={{ color: '#98c379' }}>"React"</span><span style={{ color: '#abb2bf' }}>,</span> <span style={{ color: '#98c379' }}>"JS"</span><span style={{ color: '#abb2bf' }}>,</span> <span style={{ color: '#98c379' }}>"CSS"</span>
+                    </div>
+                    <div className="pl-6 md:pl-8">
+                      <span style={{ color: '#abb2bf' }}>]</span><span style={{ color: '#abb2bf' }}>,</span>
+                    </div>
+                    <div className="pl-6 md:pl-8">
+                      <span style={{ color: '#56b6c2' }}>disponible</span><span style={{ color: '#abb2bf' }}>:</span> <span style={{ color: '#e06c75' }}>true</span>
                     </div>
                     <div>
-                      <div
-                        className="font-display text-sm font-semibold uppercase tracking-wider"
-                        style={{ color: '#ffffff' }}
-                      >
-                        {skill.label}
-                      </div>
-                      <div
-                        className="font-body text-sm mt-1"
-                        style={{ color: 'rgba(255, 255, 255, 0.4)' }}
-                      >
-                        {skill.items}
-                      </div>
+                      <span style={{ color: '#abb2bf' }}>{'}'}</span><span style={{ color: '#abb2bf' }}>;</span>
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              </div>
+
+              {/* Badges */}
+              <div 
+                className="absolute -top-4 -right-2 sm:-top-6 sm:-right-6 md:-top-8 md:-right-8 px-4 py-2 rounded-full border shadow-xl flex items-center gap-2 z-20 pointer-events-none"
+                style={{
+                  backgroundColor: '#1e1e2e',
+                  borderColor: 'rgba(255, 184, 108, 0.3)',
+                  opacity: 0, // for GSAP
+                }}
+              >
+                <span>⚡</span>
+                <span className="font-mono text-xs sm:text-sm font-semibold" style={{ color: '#ffb86c' }}>React 18</span>
+              </div>
+              
+              <div 
+                className="absolute -bottom-4 -left-2 sm:-bottom-6 sm:-left-6 md:-bottom-8 md:-left-8 px-4 py-2 rounded-full border shadow-xl flex items-center gap-2 z-20 pointer-events-none"
+                style={{
+                  backgroundColor: '#1e1e2e',
+                  borderColor: 'rgba(130, 170, 255, 0.3)',
+                  opacity: 0, // for GSAP
+                }}
+              >
+                <span>🚀</span>
+                <span className="font-mono text-xs sm:text-sm font-semibold" style={{ color: '#82aaff' }}>Aprendizaje continuo</span>
+              </div>
             </div>
           </div>
         </div>

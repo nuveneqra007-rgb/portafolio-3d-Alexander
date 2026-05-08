@@ -7,6 +7,15 @@ gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
+    title: 'NOVA AI',
+    category: 'Asistente IA',
+    description: 'Asistente de investigación con IA, con persistencia en la nube y arquitectura escalable.',
+    image: '/nova-ai.png',
+    tech: ['React', 'FastAPI', 'Supabase', 'Python'],
+    liveUrl: 'https://nova-ai-three-zeta.vercel.app/',
+    githubUrl: '#',
+  },
+  {
     title: 'COKELAB',
     category: 'Landing Page',
     description: 'Página web promocional dinámica con animaciones fluidas y diseño de producto impactante.',
