@@ -123,7 +123,7 @@ export default function About() {
                 opacity: 0,
               }}
             >
-              Construyo el
+              Transformo ideas
               <span
                 className="block"
                 style={{
@@ -132,9 +132,9 @@ export default function About() {
                   WebkitTextFillColor: 'transparent',
                 }}
               >
-                futuro digital,
+                en experiencias,
               </span>
-              línea a línea.
+              digitales.
             </h2>
 
             {/* Stats grid */}
@@ -172,9 +172,9 @@ export default function About() {
           {/* Right column - Code Card */}
           <div className="lg:col-span-7 flex items-center justify-center">
             <div ref={textRef} className="relative w-full max-w-2xl mt-8 lg:mt-0 z-10" data-cursor-hover>
-              
+
               {/* The Card */}
-              <div 
+              <div
                 className="relative rounded-xl overflow-hidden border transition-all duration-500 hover:border-[rgba(176,224,230,0.3)] w-full"
                 style={{
                   borderColor: 'rgba(255, 255, 255, 0.08)',
@@ -194,7 +194,7 @@ export default function About() {
                     alexander.jsx
                   </div>
                 </div>
-                
+
                 {/* Window Body */}
                 <div className="p-6 md:p-8 font-mono text-[13px] sm:text-sm md:text-base overflow-x-auto">
                   <div className="flex flex-col gap-2.5 min-w-max">
@@ -230,7 +230,7 @@ export default function About() {
               </div>
 
               {/* Badges */}
-              <div 
+              <div
                 className="absolute -top-4 -right-2 sm:-top-6 sm:-right-6 md:-top-8 md:-right-8 px-4 py-2 rounded-full border shadow-xl flex items-center gap-2 z-20 pointer-events-none"
                 style={{
                   backgroundColor: '#1e1e2e',
@@ -241,8 +241,8 @@ export default function About() {
                 <span>⚡</span>
                 <span className="font-mono text-xs sm:text-sm font-semibold" style={{ color: '#ffb86c' }}>React 18</span>
               </div>
-              
-              <div 
+
+              <div
                 className="absolute -bottom-4 -left-2 sm:-bottom-6 sm:-left-6 md:-bottom-8 md:-left-8 px-4 py-2 rounded-full border shadow-xl flex items-center gap-2 z-20 pointer-events-none"
                 style={{
                   backgroundColor: '#1e1e2e',
