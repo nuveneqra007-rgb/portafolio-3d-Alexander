@@ -1,17 +1,19 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, lazy, Suspense } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Preloader from './sections/Preloader';
 import Hero from './sections/Hero';
-import About from './sections/About';
-import Projects from './sections/Projects';
-import Contact from './sections/Contact';
-import Footer from './sections/Footer';
 import Navigation from './components/Navigation';
 import GrainOverlay from './components/GrainOverlay';
 import CustomCursor from './components/CustomCursor';
+
+// Lazy load below-fold sections for faster initial paint
+const About = lazy(() => import('./sections/About'));
+const Projects = lazy(() => import('./sections/Projects'));
+const Contact = lazy(() => import('./sections/Contact'));
+const Footer = lazy(() => import('./sections/Footer'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,14 +34,11 @@ function App() {
     // Sync Lenis with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
-    // Run GSAP ticker at maximum FPS available (e.g. 120fps)
-    gsap.ticker.fps(120);
-
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
 
-    // lagSmoothing(0) is good, but we want it to handle high refresh rates gracefully
+    // lagSmoothing(0) handles high refresh rates gracefully
     gsap.ticker.lagSmoothing(0);
 
     return () => {
@@ -89,10 +88,12 @@ function App() {
         }}
       >
         <Hero lenisRef={lenisRef} />
-        <About />
-        <Projects />
-        <Contact />
-        <Footer lenisRef={lenisRef} />
+        <Suspense fallback={null}>
+          <About />
+          <Projects />
+          <Contact />
+          <Footer lenisRef={lenisRef} />
+        </Suspense>
       </main>
     </>
   );

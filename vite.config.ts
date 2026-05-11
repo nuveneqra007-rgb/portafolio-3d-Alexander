@@ -31,11 +31,21 @@ export default defineConfig({
       compress: {
         drop_console: true,
         drop_debugger: true,
+        passes: 2,
+      },
+      mangle: {
+        safari10: true,
       },
     },
     // Target modern browsers
     target: 'es2020',
     // Inline small assets
     assetsInlineLimit: 4096,
+    // Minify CSS
+    cssMinify: true,
+    // Skip compressed size report for faster builds
+    reportCompressedSize: false,
+    // Source maps for production debugging (optional)
+    sourcemap: false,
   },
-});
+})

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, MessageCircle, Github as GithubIcon, Linkedin } from 'lucide-react';
+import { Mail, MessageCircle, Github as GithubIcon, Linkedin, Send, ArrowUpRight, Sparkles } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,10 +35,10 @@ export default function Contact() {
       // Form
       gsap.fromTo(
         formRef.current,
-        { opacity: 0, x: -40 },
+        { opacity: 0, y: 40 },
         {
           opacity: 1,
-          x: 0,
+          y: 0,
           duration: 1,
           ease: 'power3.out',
           scrollTrigger: {
@@ -49,15 +49,15 @@ export default function Contact() {
         }
       );
 
-      // Info
+      // Info cards
       gsap.fromTo(
         infoRef.current?.children || [],
-        { opacity: 0, x: 40 },
+        { opacity: 0, y: 30 },
         {
           opacity: 1,
-          x: 0,
+          y: 0,
           duration: 0.8,
-          stagger: 0.15,
+          stagger: 0.12,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: infoRef.current,
@@ -85,46 +85,34 @@ export default function Contact() {
     setFormData({ name: '', email: '', message: '' });
   };
 
-  const inputStyle = (field: string) => ({
-    backgroundColor: 'transparent',
-    border: 'none',
-    borderBottom: `1px solid ${focused === field ? '#00ff41' : 'rgba(0, 255, 65, 0.15)'}`,
-    color: '#00ff41',
-    outline: 'none',
-    padding: '16px 0',
-    width: '100%',
-    fontFamily: "'JetBrains Mono', 'Fira Code', 'Courier New', monospace",
-    fontSize: '14px',
-    letterSpacing: '0.05em',
-    transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-    boxShadow: focused === field ? '0 2px 8px rgba(0, 255, 65, 0.1)' : 'none',
-    caretColor: '#00ff41',
-  });
-
-  const contactInfo = [
+  const contactChannels = [
     { 
       icon: MessageCircle, 
       label: 'WhatsApp', 
-      value: <a href="https://wa.me/18096314386" target="_blank" rel="noopener noreferrer" className="hover:text-[#50fa7b] transition-colors">Disponible para chat</a>,
-      prefix: '~/connect/whatsapp',
+      description: 'Respuesta rápida y directa',
+      href: 'https://wa.me/18096314386',
+      color: '#25D366',
     },
     { 
       icon: Mail, 
       label: 'Email', 
-      value: <a href="mailto:miguelalexanderlopezmendosa23@gmail.com" className="hover:text-[#50fa7b] transition-colors" style={{ wordBreak: 'break-all' as const }}>miguelalexanderlopezmendosa23@gmail.com</a>,
-      prefix: '~/connect/email',
+      description: 'miguelalexanderlopezmendosa23@gmail.com',
+      href: 'mailto:miguelalexanderlopezmendosa23@gmail.com',
+      color: '#B0E0E6',
     },
     { 
       icon: GithubIcon, 
       label: 'GitHub', 
-      value: <a href="https://github.com/nuveneqra007-rgb" target="_blank" rel="noopener noreferrer" className="hover:text-[#50fa7b] transition-colors">nuveneqra007-rgb</a>,
-      prefix: '~/connect/github',
+      description: 'Mira mi código y proyectos',
+      href: 'https://github.com/nuveneqra007-rgb',
+      color: '#f0f0f0',
     },
     { 
       icon: Linkedin, 
       label: 'LinkedIn', 
-      value: <a href="https://www.linkedin.com/in/alexander-lopez-315673401/" target="_blank" rel="noopener noreferrer" className="hover:text-[#50fa7b] transition-colors">Alexander Lopez</a>,
-      prefix: '~/connect/linkedin',
+      description: 'Conectemos profesionalmente',
+      href: 'https://www.linkedin.com/in/alexander-lopez-315673401/',
+      color: '#0A66C2',
     },
   ];
 
@@ -135,382 +123,407 @@ export default function Contact() {
       className="relative w-full py-32 lg:py-48 overflow-hidden"
       style={{ backgroundColor: '#000000' }}
     >
-      {/* Scanline overlay */}
+      {/* Subtle radial gradient background */}
       <div
-        className="absolute inset-0 pointer-events-none z-20"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0, 255, 65, 0.008) 3px, rgba(0, 255, 65, 0.008) 6px)',
+          background: 'radial-gradient(ellipse at 30% 50%, rgba(176, 224, 230, 0.06) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(176, 224, 230, 0.04) 0%, transparent 50%)',
         }}
       />
 
-      {/* Background glow - hacker green */}
+      {/* Grid background */}
       <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse, rgba(0, 255, 65, 0.04) 0%, transparent 70%)',
-        }}
-      />
-
-      {/* Grid background with green tint */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-20"
+        className="absolute inset-0 pointer-events-none opacity-30"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
+            'linear-gradient(rgba(176, 224, 230, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(176, 224, 230, 0.02) 1px, transparent 1px)',
+          backgroundSize: '80px 80px',
         }}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-16">
-        {/* Section header - hacker style */}
+        {/* Section header */}
         <div className="flex items-center gap-4 mb-20">
           <span
-            className="font-mono text-xs uppercase tracking-[0.3em]"
-            style={{ color: 'rgba(0, 255, 65, 0.5)' }}
+            className="font-body text-xs uppercase tracking-[0.3em]"
+            style={{ color: 'rgba(176, 224, 230, 0.6)' }}
           >
             03
           </span>
-          <div className="h-px flex-1" style={{ backgroundColor: 'rgba(0, 255, 65, 0.1)' }} />
+          <div className="h-px flex-1" style={{ backgroundColor: 'rgba(176, 224, 230, 0.1)' }} />
           <span
-            className="font-mono text-xs uppercase tracking-[0.3em] flex items-center gap-2"
-            style={{ color: 'rgba(0, 255, 65, 0.5)' }}
+            className="font-body text-xs uppercase tracking-[0.3em]"
+            style={{ color: 'rgba(176, 224, 230, 0.6)' }}
           >
-            <span style={{ color: '#00ff41', animation: 'terminalPulse 2s ease-in-out infinite' }}>●</span>
             Contacto
           </span>
         </div>
 
-        {/* Heading - hacker terminal style */}
-        <h2
-          ref={headingRef}
-          className="font-display font-bold leading-tight mb-20"
-          style={{
-            fontSize: 'clamp(2.5rem, 6vw, 5.5rem)',
-            color: '#00ff41',
-            textShadow: '0 0 40px rgba(0, 255, 65, 0.15), 0 0 80px rgba(0, 255, 65, 0.05)',
-            opacity: 0,
-          }}
-        >
-          <span style={{ color: 'rgba(0, 255, 65, 0.3)', fontSize: '0.6em' }}>{'> '}</span>
-          Hagamos realidad tu
-          <span
-            className="block"
+        {/* Heading */}
+        <div className="max-w-3xl mb-20">
+          <h2
+            ref={headingRef}
+            className="font-display font-bold leading-tight mb-6"
             style={{
-              background: 'linear-gradient(135deg, #00ff41 0%, #50fa7b 50%, #8be9fd 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
+              fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+              color: '#ffffff',
+              opacity: 0,
             }}
           >
-            <span style={{ WebkitTextFillColor: 'transparent' }}>{'  '}próximo proyecto.</span>
-          </span>
-          <span
-            className="inline-block w-3 h-8 ml-2 align-middle"
-            style={{
-              backgroundColor: '#00ff41',
-              animation: 'cursorBlink 1s step-end infinite',
-              boxShadow: '0 0 10px rgba(0, 255, 65, 0.5)',
-            }}
-          />
-        </h2>
+            ¿Listo para llevar tu
+            <span
+              className="block"
+              style={{
+                background: 'linear-gradient(135deg, #B0E0E6 0%, #ffffff 50%, #B0E0E6 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              proyecto al siguiente nivel?
+            </span>
+          </h2>
+          <p
+            className="font-body text-base lg:text-lg leading-relaxed"
+            style={{ color: 'rgba(255, 255, 255, 0.5)' }}
+          >
+            Cuéntame sobre tu idea y juntos crearemos algo extraordinario. 
+            Respondo en menos de 24 horas.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-          {/* Form - Hacker Terminal Style */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          {/* Contact Form */}
           <form
             ref={formRef}
             onSubmit={handleSubmit}
             className="lg:col-span-7"
             style={{ opacity: 0 }}
           >
-            {/* Terminal wrapper */}
             <div
-              className="relative rounded-lg overflow-hidden border"
+              className="relative rounded-2xl overflow-hidden border p-8 md:p-10"
               style={{
-                borderColor: 'rgba(0, 255, 65, 0.15)',
-                backgroundColor: '#0a0a0a',
-                boxShadow: '0 0 40px rgba(0, 255, 65, 0.05), 0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(0, 255, 65, 0.08)',
+                borderColor: 'rgba(176, 224, 230, 0.08)',
+                backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                backdropFilter: 'blur(20px)',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(176, 224, 230, 0.05)',
               }}
             >
-              {/* Scanline inside form */}
+              {/* Decorative corner accent */}
               <div
-                className="absolute inset-0 pointer-events-none z-10"
+                className="absolute top-0 right-0 w-32 h-32 pointer-events-none"
                 style={{
-                  background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 65, 0.01) 2px, rgba(0, 255, 65, 0.01) 4px)',
+                  background: 'radial-gradient(circle at top right, rgba(176, 224, 230, 0.08), transparent 70%)',
                 }}
               />
 
-              {/* Terminal header */}
-              <div
-                className="flex items-center px-4 py-2.5 border-b"
-                style={{
-                  borderColor: 'rgba(0, 255, 65, 0.1)',
-                  backgroundColor: 'rgba(0, 255, 65, 0.03)',
-                }}
-              >
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#ff5f56', boxShadow: '0 0 6px rgba(255, 95, 86, 0.5)' }} />
-                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#ffbd2e', boxShadow: '0 0 6px rgba(255, 189, 46, 0.5)' }} />
-                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#27c93f', boxShadow: '0 0 6px rgba(39, 201, 63, 0.5)' }} />
-                </div>
-                <div className="flex-1 flex items-center justify-center gap-2">
-                  <span className="font-mono text-[10px] tracking-widest uppercase" style={{ color: 'rgba(0, 255, 65, 0.5)' }}>
-                    ⌘ root@alexander
-                  </span>
-                  <span className="font-mono text-[10px]" style={{ color: 'rgba(0, 255, 65, 0.3)' }}>—</span>
-                  <span className="font-mono text-[10px] tracking-wider" style={{ color: 'rgba(0, 255, 65, 0.35)' }}>
-                    ~/contact/send_message.sh
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#00ff41', animation: 'terminalPulse 2s ease-in-out infinite', boxShadow: '0 0 8px rgba(0, 255, 65, 0.6)' }} />
-                  <span className="font-mono text-[9px] uppercase tracking-wider" style={{ color: 'rgba(0, 255, 65, 0.4)' }}>secure</span>
-                </div>
-              </div>
-
-              {/* Terminal body with form fields */}
-              <div className="relative z-0 p-6 md:p-8 space-y-8">
-                {/* Comment line */}
-                <div className="font-mono text-xs" style={{ color: 'rgba(0, 255, 65, 0.25)' }}>
-                  {'// '}Inicializando conexión segura... ✓ Encryption enabled
+              <div className="relative z-10 space-y-8">
+                {/* Form header */}
+                <div className="flex items-center gap-3 mb-2">
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(176, 224, 230, 0.15), rgba(176, 224, 230, 0.05))',
+                      border: '1px solid rgba(176, 224, 230, 0.1)',
+                    }}
+                  >
+                    <Sparkles size={18} style={{ color: '#B0E0E6' }} />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-lg font-semibold" style={{ color: '#ffffff' }}>
+                      Envíame un mensaje
+                    </h3>
+                    <p className="font-body text-xs" style={{ color: 'rgba(255, 255, 255, 0.35)' }}>
+                      Se abrirá directamente en WhatsApp
+                    </p>
+                  </div>
                 </div>
 
                 {/* Name field */}
-                <div>
+                <div className="space-y-2">
                   <label
-                    className="font-mono text-[11px] uppercase tracking-[0.2em] block mb-3 flex items-center gap-2"
-                    style={{ color: 'rgba(0, 255, 65, 0.45)' }}
+                    className="font-body text-sm font-medium block"
+                    style={{ color: 'rgba(255, 255, 255, 0.7)' }}
+                    htmlFor="contact-name"
                   >
-                    <span style={{ color: '#00ff41' }}>❯</span>
-                    <span style={{ color: '#ff79c6' }}>set</span>
-                    <span>--nombre</span>
+                    Tu nombre
                   </label>
                   <input
+                    id="contact-name"
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     onFocus={() => setFocused('name')}
                     onBlur={() => setFocused('')}
-                    style={inputStyle('name')}
-                    placeholder="Ingresa tu identidad..."
+                    placeholder="¿Cómo te llamas?"
                     required
-                    className="placeholder:text-[rgba(0,255,65,0.15)]"
+                    className="placeholder:text-white/15"
+                    style={{
+                      width: '100%',
+                      padding: '14px 16px',
+                      borderRadius: '12px',
+                      border: `1px solid ${focused === 'name' ? 'rgba(176, 224, 230, 0.3)' : 'rgba(255, 255, 255, 0.08)'}`,
+                      backgroundColor: focused === 'name' ? 'rgba(176, 224, 230, 0.04)' : 'rgba(255, 255, 255, 0.03)',
+                      color: '#ffffff',
+                      outline: 'none',
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '14px',
+                      transition: 'all 0.3s ease',
+                      boxShadow: focused === 'name' ? '0 0 0 3px rgba(176, 224, 230, 0.08)' : 'none',
+                    }}
                   />
                 </div>
 
                 {/* Email field */}
-                <div>
+                <div className="space-y-2">
                   <label
-                    className="font-mono text-[11px] uppercase tracking-[0.2em] block mb-3 flex items-center gap-2"
-                    style={{ color: 'rgba(0, 255, 65, 0.45)' }}
+                    className="font-body text-sm font-medium block"
+                    style={{ color: 'rgba(255, 255, 255, 0.7)' }}
+                    htmlFor="contact-email"
                   >
-                    <span style={{ color: '#00ff41' }}>❯</span>
-                    <span style={{ color: '#ff79c6' }}>set</span>
-                    <span>--email</span>
+                    Tu correo electrónico
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     onFocus={() => setFocused('email')}
                     onBlur={() => setFocused('')}
-                    style={inputStyle('email')}
-                    placeholder="tu@correo.encrypted"
+                    placeholder="correo@ejemplo.com"
                     required
-                    className="placeholder:text-[rgba(0,255,65,0.15)]"
+                    className="placeholder:text-white/15"
+                    style={{
+                      width: '100%',
+                      padding: '14px 16px',
+                      borderRadius: '12px',
+                      border: `1px solid ${focused === 'email' ? 'rgba(176, 224, 230, 0.3)' : 'rgba(255, 255, 255, 0.08)'}`,
+                      backgroundColor: focused === 'email' ? 'rgba(176, 224, 230, 0.04)' : 'rgba(255, 255, 255, 0.03)',
+                      color: '#ffffff',
+                      outline: 'none',
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '14px',
+                      transition: 'all 0.3s ease',
+                      boxShadow: focused === 'email' ? '0 0 0 3px rgba(176, 224, 230, 0.08)' : 'none',
+                    }}
                   />
                 </div>
 
                 {/* Message field */}
-                <div>
+                <div className="space-y-2">
                   <label
-                    className="font-mono text-[11px] uppercase tracking-[0.2em] block mb-3 flex items-center gap-2"
-                    style={{ color: 'rgba(0, 255, 65, 0.45)' }}
+                    className="font-body text-sm font-medium block"
+                    style={{ color: 'rgba(255, 255, 255, 0.7)' }}
+                    htmlFor="contact-message"
                   >
-                    <span style={{ color: '#00ff41' }}>❯</span>
-                    <span style={{ color: '#ff79c6' }}>set</span>
-                    <span>--mensaje</span>
+                    Cuéntame sobre tu proyecto
                   </label>
                   <textarea
+                    id="contact-message"
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     onFocus={() => setFocused('message')}
                     onBlur={() => setFocused('')}
-                    style={{
-                      ...inputStyle('message'),
-                      resize: 'none' as const,
-                      minHeight: '120px',
-                    }}
-                    placeholder="Transmite tu mensaje cifrado..."
+                    placeholder="Describe tu idea, los objetivos del proyecto y cómo puedo ayudarte..."
                     required
-                    className="placeholder:text-[rgba(0,255,65,0.15)]"
+                    rows={5}
+                    className="placeholder:text-white/15"
+                    style={{
+                      width: '100%',
+                      padding: '14px 16px',
+                      borderRadius: '12px',
+                      border: `1px solid ${focused === 'message' ? 'rgba(176, 224, 230, 0.3)' : 'rgba(255, 255, 255, 0.08)'}`,
+                      backgroundColor: focused === 'message' ? 'rgba(176, 224, 230, 0.04)' : 'rgba(255, 255, 255, 0.03)',
+                      color: '#ffffff',
+                      outline: 'none',
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '14px',
+                      resize: 'none' as const,
+                      transition: 'all 0.3s ease',
+                      boxShadow: focused === 'message' ? '0 0 0 3px rgba(176, 224, 230, 0.08)' : 'none',
+                    }}
                   />
                 </div>
 
                 {/* Submit button */}
                 <button
                   type="submit"
-                  className="group relative flex items-center justify-center gap-3 w-full px-8 py-4 border rounded-md overflow-hidden transition-all duration-500"
+                  className="group relative flex items-center justify-center gap-3 w-full px-8 py-4 rounded-xl overflow-hidden transition-all duration-500"
                   style={{
-                    borderColor: 'rgba(0, 255, 65, 0.3)',
-                    color: '#00ff41',
-                    backgroundColor: 'rgba(0, 255, 65, 0.05)',
+                    background: 'linear-gradient(135deg, #B0E0E6, #87CEEB)',
+                    color: '#000000',
+                    fontWeight: 600,
                   }}
                   onMouseEnter={(e) => {
                     const el = e.currentTarget;
-                    el.style.backgroundColor = 'rgba(0, 255, 65, 0.15)';
-                    el.style.borderColor = 'rgba(0, 255, 65, 0.6)';
-                    el.style.boxShadow = '0 0 30px rgba(0, 255, 65, 0.15), inset 0 0 30px rgba(0, 255, 65, 0.05)';
+                    el.style.transform = 'translateY(-2px)';
+                    el.style.boxShadow = '0 12px 40px rgba(176, 224, 230, 0.25), 0 0 0 1px rgba(176, 224, 230, 0.3)';
                   }}
                   onMouseLeave={(e) => {
                     const el = e.currentTarget;
-                    el.style.backgroundColor = 'rgba(0, 255, 65, 0.05)';
-                    el.style.borderColor = 'rgba(0, 255, 65, 0.3)';
+                    el.style.transform = 'translateY(0)';
                     el.style.boxShadow = 'none';
                   }}
                   data-cursor-hover
                 >
-                  {/* Shimmer on hover */}
+                  {/* Shimmer effect */}
                   <div
                     className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     style={{
-                      background: 'linear-gradient(105deg, transparent 40%, rgba(0,255,65,0.08) 45%, rgba(0,255,65,0.15) 50%, rgba(0,255,65,0.08) 55%, transparent 60%)',
+                      background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 45%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.2) 55%, transparent 60%)',
                       backgroundSize: '200% 100%',
                       animation: 'shimmer 2s infinite linear',
                     }}
                   />
-                  <MessageCircle size={18} className="relative z-10 transition-transform duration-300 group-hover:scale-110" />
-                  <span className="relative z-10 font-mono text-sm uppercase tracking-[0.2em] font-bold">
-                    ./enviar_mensaje.sh
+                  <Send size={18} className="relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
+                  <span className="relative z-10 font-body text-sm tracking-wide">
+                    Enviar mensaje por WhatsApp
                   </span>
                 </button>
-              </div>
-
-              {/* Terminal status bar */}
-              <div
-                className="flex items-center justify-between px-4 py-1.5 border-t font-mono text-[9px] tracking-wider uppercase"
-                style={{
-                  borderColor: 'rgba(0, 255, 65, 0.08)',
-                  backgroundColor: 'rgba(0, 255, 65, 0.03)',
-                  color: 'rgba(0, 255, 65, 0.3)',
-                }}
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex items-center gap-1">
-                    <span style={{ color: '#50fa7b' }}>●</span> INSERT
-                  </span>
-                  <span>UTF-8</span>
-                  <span>BASH</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span>SSL/TLS</span>
-                  <span className="flex items-center gap-1">
-                    <span style={{ color: '#50fa7b' }}>⬤</span> ENCRYPTED
-                  </span>
-                </div>
               </div>
             </div>
           </form>
 
-          {/* Contact Info - Hacker Style */}
-          <div ref={infoRef} className="lg:col-span-5 space-y-6">
-            {/* Access message */}
+          {/* Contact Info */}
+          <div ref={infoRef} className="lg:col-span-5 space-y-5">
+            {/* Availability card */}
             <div
-              className="p-5 border rounded-lg"
+              className="p-6 rounded-2xl border"
               style={{
-                borderColor: 'rgba(0, 255, 65, 0.1)',
-                backgroundColor: 'rgba(0, 255, 65, 0.02)',
+                borderColor: 'rgba(176, 224, 230, 0.08)',
+                backgroundColor: 'rgba(176, 224, 230, 0.03)',
                 opacity: 0,
               }}
             >
-              <div className="font-mono text-[10px] mb-3 flex items-center gap-2" style={{ color: 'rgba(0, 255, 65, 0.35)' }}>
-                <span style={{ color: '#00ff41' }}>❯</span> system.log
+              <div className="flex items-center gap-3 mb-4">
+                <div className="relative flex items-center justify-center">
+                  <div
+                    className="w-3 h-3 rounded-full"
+                    style={{
+                      backgroundColor: '#4ade80',
+                      boxShadow: '0 0 12px rgba(74, 222, 128, 0.4)',
+                    }}
+                  />
+                  <div
+                    className="absolute w-3 h-3 rounded-full animate-ping"
+                    style={{
+                      backgroundColor: '#4ade80',
+                      opacity: 0.4,
+                    }}
+                  />
+                </div>
+                <span className="font-display text-sm font-semibold" style={{ color: '#4ade80' }}>
+                  Disponible para nuevos proyectos
+                </span>
               </div>
               <p
-                className="font-mono text-sm leading-relaxed"
-                style={{ color: 'rgba(0, 255, 65, 0.55)' }}
+                className="font-body text-sm leading-relaxed"
+                style={{ color: 'rgba(255, 255, 255, 0.5)' }}
               >
-                <span style={{ color: '#50fa7b' }}>ACCESS_GRANTED:</span> ¿Tienes un proyecto en mente? Estoy disponible para freelance,
-                colaboraciones y oportunidades full-time. <span style={{ color: '#00ff41' }}>¡Conectemos!</span>
+                ¿Tienes una idea en mente? Estoy disponible para proyectos freelance, 
+                colaboraciones y oportunidades a tiempo completo. ¡Hablemos!
               </p>
             </div>
 
-            {/* Contact items as terminal entries */}
-            {contactInfo.map((info, i) => {
-              const Icon = info.icon;
+            {/* Contact channels */}
+            {contactChannels.map((channel, i) => {
+              const Icon = channel.icon;
               return (
-                <div
+                <a
                   key={i}
-                  className="group flex items-start gap-4 p-4 border rounded-lg transition-all duration-300"
+                  href={channel.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-4 p-5 rounded-2xl border transition-all duration-300"
                   style={{
-                    borderColor: 'rgba(0, 255, 65, 0.08)',
-                    backgroundColor: 'rgba(0, 255, 65, 0.02)',
+                    borderColor: 'rgba(255, 255, 255, 0.06)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                    textDecoration: 'none',
                     opacity: 0,
                   }}
                   onMouseEnter={(e) => {
                     const el = e.currentTarget;
-                    el.style.borderColor = 'rgba(0, 255, 65, 0.25)';
-                    el.style.backgroundColor = 'rgba(0, 255, 65, 0.04)';
-                    el.style.boxShadow = '0 0 20px rgba(0, 255, 65, 0.05)';
+                    el.style.borderColor = 'rgba(176, 224, 230, 0.15)';
+                    el.style.backgroundColor = 'rgba(176, 224, 230, 0.04)';
+                    el.style.transform = 'translateY(-2px)';
+                    el.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.3)';
                   }}
                   onMouseLeave={(e) => {
                     const el = e.currentTarget;
-                    el.style.borderColor = 'rgba(0, 255, 65, 0.08)';
-                    el.style.backgroundColor = 'rgba(0, 255, 65, 0.02)';
+                    el.style.borderColor = 'rgba(255, 255, 255, 0.06)';
+                    el.style.backgroundColor = 'rgba(255, 255, 255, 0.02)';
+                    el.style.transform = 'translateY(0)';
                     el.style.boxShadow = 'none';
                   }}
                   data-cursor-hover
                 >
                   <div
-                    className="w-10 h-10 flex items-center justify-center flex-shrink-0 rounded-md"
+                    className="w-12 h-12 flex items-center justify-center flex-shrink-0 rounded-xl transition-all duration-300"
                     style={{
-                      border: '1px solid rgba(0, 255, 65, 0.2)',
-                      backgroundColor: 'rgba(0, 255, 65, 0.05)',
+                      backgroundColor: `${channel.color}10`,
+                      border: `1px solid ${channel.color}20`,
                     }}
                   >
-                    <Icon size={16} style={{ color: '#00ff41' }} />
+                    <Icon size={20} style={{ color: channel.color }} />
                   </div>
-                  <div className="min-w-0">
+                  <div className="flex-1 min-w-0">
                     <div
-                      className="font-mono text-[10px] uppercase tracking-wider mb-0.5 flex items-center gap-1.5"
-                      style={{ color: 'rgba(0, 255, 65, 0.3)' }}
+                      className="font-display text-sm font-semibold mb-0.5"
+                      style={{ color: '#ffffff' }}
                     >
-                      <span style={{ color: '#50fa7b' }}>▸</span>
-                      {info.prefix}
+                      {channel.label}
                     </div>
                     <div
-                      className="font-mono text-[10px] uppercase tracking-wider mb-1"
-                      style={{ color: 'rgba(0, 255, 65, 0.5)' }}
+                      className="font-body text-xs truncate"
+                      style={{ color: 'rgba(255, 255, 255, 0.4)' }}
                     >
-                      {info.label}
-                    </div>
-                    <div
-                      className="font-mono text-sm"
-                      style={{ color: 'rgba(0, 255, 65, 0.75)' }}
-                    >
-                      {info.value}
+                      {channel.description}
                     </div>
                   </div>
-                </div>
+                  <ArrowUpRight
+                    size={16}
+                    className="flex-shrink-0 transition-all duration-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    style={{ color: '#B0E0E6' }}
+                  />
+                </a>
               );
             })}
 
-            {/* Status indicator */}
+            {/* Response time info */}
             <div
-              className="p-4 border rounded-lg font-mono text-[11px]"
+              className="flex items-center gap-4 p-5 rounded-2xl border"
               style={{
-                borderColor: 'rgba(0, 255, 65, 0.08)',
-                backgroundColor: 'rgba(0, 255, 65, 0.02)',
-                color: 'rgba(0, 255, 65, 0.35)',
+                borderColor: 'rgba(255, 255, 255, 0.06)',
+                backgroundColor: 'rgba(255, 255, 255, 0.02)',
                 opacity: 0,
               }}
             >
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#00ff41', animation: 'terminalPulse 2s ease-in-out infinite', boxShadow: '0 0 8px rgba(0, 255, 65, 0.6)' }} />
-                <span className="uppercase tracking-wider" style={{ color: '#00ff41' }}>System Status: Online</span>
-              </div>
-              <div className="space-y-1" style={{ color: 'rgba(0, 255, 65, 0.25)' }}>
-                <div>├── Response time: {'<'} 24h</div>
-                <div>├── Availability: Open for work</div>
-                <div>└── Location: Worldwide 🌍</div>
+              <div className="space-y-3 w-full">
+                <div className="flex items-center justify-between">
+                  <span className="font-body text-xs uppercase tracking-wider" style={{ color: 'rgba(255, 255, 255, 0.35)' }}>
+                    Tiempo de respuesta
+                  </span>
+                  <span className="font-display text-sm font-semibold" style={{ color: '#B0E0E6' }}>
+                    {'< 24h'}
+                  </span>
+                </div>
+                <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255, 255, 255, 0.06)' }}>
+                  <div
+                    className="h-full rounded-full"
+                    style={{
+                      width: '90%',
+                      background: 'linear-gradient(90deg, #B0E0E6, #87CEEB)',
+                      boxShadow: '0 0 10px rgba(176, 224, 230, 0.3)',
+                    }}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="font-body text-xs uppercase tracking-wider" style={{ color: 'rgba(255, 255, 255, 0.35)' }}>
+                    Ubicación
+                  </span>
+                  <span className="font-body text-sm" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>
+                    🌎 Disponible mundial
+                  </span>
+                </div>
               </div>
             </div>
           </div>
