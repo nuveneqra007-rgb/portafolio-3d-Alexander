@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ExternalLink } from 'lucide-react';
+import { TechBadge } from '../components/TechIcons';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -229,7 +230,7 @@ export default function Projects() {
             <div
               key={i}
               ref={(el) => { cardsRef.current[i] = el; }}
-              className="group flex flex-col h-full border transition-all duration-300 hover:border-[rgba(176,224,230,0.3)] hover:-translate-y-2 relative"
+              className="group flex flex-col h-full border rounded-xl transition-all duration-300 hover:border-[rgba(176,224,230,0.3)] hover:-translate-y-2 relative overflow-hidden"
               style={{
                 opacity: 0,
                 borderColor: 'rgba(176, 224, 230, 0.1)',
@@ -240,7 +241,9 @@ export default function Projects() {
               <div className="relative aspect-video overflow-hidden border-b group" style={{ borderColor: 'rgba(176, 224, 230, 0.1)' }}>
                 <img
                   src={project.image}
-                  alt={project.title}
+                  alt={`Screenshot del proyecto ${project.title}`}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover object-top transition-all duration-[6000ms] ease-in-out group-hover:object-bottom"
                 />
                 
@@ -256,6 +259,7 @@ export default function Projects() {
                     className="w-12 h-12 flex items-center justify-center border rounded-full transition-all duration-300 hover:scale-110"
                     style={{ borderColor: 'rgba(176, 224, 230, 0.5)', color: '#B0E0E6', backgroundColor: 'rgba(0,0,0,0.5)' }}
                     data-cursor-hover
+                    aria-label={`Ver proyecto ${project.title} en vivo`}
                   >
                     <ExternalLink size={18} />
                   </a>
@@ -288,24 +292,14 @@ export default function Projects() {
                 {/* Tech stack */}
                 <div className="flex flex-wrap gap-2 mt-auto">
                   {project.tech.map((tech, j) => (
-                    <span
-                      key={j}
-                      className="px-2 py-1 text-[10px] font-body border"
-                      style={{
-                        borderColor: 'rgba(176, 224, 230, 0.15)',
-                        color: 'rgba(176, 224, 230, 0.6)',
-                        backgroundColor: 'rgba(176, 224, 230, 0.03)',
-                      }}
-                    >
-                      {tech}
-                    </span>
+                    <TechBadge key={j} name={tech} />
                   ))}
                 </div>
               </div>
 
               {/* Hover Glow */}
               <div 
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-xl"
                 style={{
                   boxShadow: 'inset 0 0 30px rgba(176, 224, 230, 0.05)'
                 }}

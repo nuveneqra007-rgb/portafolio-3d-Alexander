@@ -1,11 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 
+function isTouchDevice() {
+  return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+}
+
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const [hovering, setHovering] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
 
   useEffect(() => {
+    if (isTouchDevice()) {
+      setIsTouch(true);
+      document.body.style.cursor = 'auto';
+      return;
+    }
     const dot = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;
@@ -56,6 +66,8 @@ export default function CustomCursor() {
       cancelAnimationFrame(raf);
     };
   }, []);
+
+  if (isTouch) return null;
 
   return (
     <>

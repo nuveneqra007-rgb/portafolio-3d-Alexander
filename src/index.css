@@ -43,6 +43,32 @@
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
     cursor: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Show normal cursor on touch devices */
+  @media (pointer: coarse) {
+    body {
+      cursor: auto;
+    }
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Focus visible for keyboard accessibility */
+  :focus-visible {
+    outline: 2px solid #B0E0E6;
+    outline-offset: 2px;
   }
 
   ::selection {
@@ -94,6 +120,21 @@
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes terminalPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(0, 255, 65, 0.6); }
+  50% { opacity: 0.4; box-shadow: 0 0 4px rgba(0, 255, 65, 0.3); }
 }
 
 .animate-float {
