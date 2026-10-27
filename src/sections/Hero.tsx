@@ -168,7 +168,7 @@ export default function Hero({ lenisRef }: HeroProps) {
             opacity: 0,
           }}
         >
-          Desarrollador Full Stack • Frontend, Backend & Videojuegos Web
+          Desarrollador Frontend, Backend, Bases de Datos y Videojuegos
         </p>
 
         {/* Tech stack pills */}
