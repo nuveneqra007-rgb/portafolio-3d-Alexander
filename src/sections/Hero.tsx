@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import type Lenis from 'lenis';
 import AParticleFormation from '../components/AParticleFormation';
 
 interface HeroProps {
-  lenisRef: React.MutableRefObject<any>;
+  lenisRef: React.RefObject<Lenis | null>;
 }
 
 export default function Hero({ lenisRef }: HeroProps) {
@@ -127,10 +128,12 @@ export default function Hero({ lenisRef }: HeroProps) {
       <div className="relative z-10 text-center px-4">
         {/* Eyebrow text */}
         <div
-          className="font-body text-xs uppercase tracking-[0.4em] mb-6"
-          style={{ color: 'rgba(176, 224, 230, 0.7)' }}
+          className="font-body text-xs uppercase tracking-[0.4em] mb-6 flex items-center justify-center gap-3"
+          style={{ color: 'rgba(176, 224, 230, 0.75)' }}
         >
-          Portfolio De
+          <span className="w-8 h-px bg-[#B0E0E6]/30 inline-block" />
+          <span>Full-Stack Developer</span>
+          <span className="w-8 h-px bg-[#B0E0E6]/30 inline-block" />
         </div>
 
         {/* Main title */}
@@ -159,14 +162,13 @@ export default function Hero({ lenisRef }: HeroProps) {
         {/* Subtitle */}
         <p
           ref={subtitleRef}
-          className="font-body mt-6 lg:mt-8 tracking-[0.2em] uppercase"
+          className="font-body mt-6 lg:mt-8 tracking-[0.25em] uppercase text-xs sm:text-sm lg:text-base font-medium"
           style={{
-            fontSize: 'clamp(0.75rem, 2vw, 1.25rem)',
-            color: 'rgba(255, 255, 255, 0.6)',
+            color: 'rgba(176, 224, 230, 0.9)',
             opacity: 0,
           }}
         >
-          Frontend Developer
+          Desarrollador Full Stack • Frontend, Backend & Videojuegos Web
         </p>
 
         {/* Tech stack pills */}

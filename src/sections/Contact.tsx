@@ -12,6 +12,7 @@ export default function Contact() {
   const infoRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [focused, setFocused] = useState('');
+  const [sent, setSent] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -77,12 +78,22 @@ export default function Contact() {
     // Número de WhatsApp (República Dominicana +1)
     const whatsappNumber = '18096314386'; 
     
-    const text = `¡Hola Alexander! Me interesa colaborar en un proyecto.%0A%0A*Detalles del contacto:*%0A👤 Nombre: ${formData.name}%0A📧 Email: ${formData.email}%0A%0A*Mensaje:*%0A${formData.message}`;
+    const text = `¡Hola Alexander! Me interesa colaborar en un proyecto.%0A%0A*Detalles del contacto:*%0A👤 Nombre: ${encodeURIComponent(formData.name)}%0A📧 Email: ${encodeURIComponent(formData.email)}%0A%0A*Mensaje:*%0A${encodeURIComponent(formData.message)}`;
     
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${text}`;
-    window.open(whatsappUrl, '_blank');
     
+    // Open via anchor to avoid iframe popup restrictions
+    const link = document.createElement('a');
+    link.href = whatsappUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    setSent(true);
     setFormData({ name: '', email: '', message: '' });
+    setTimeout(() => setSent(false), 4000);
   };
 
   const contactChannels = [
@@ -376,7 +387,7 @@ export default function Contact() {
                   />
                   <Send size={18} className="relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
                   <span className="relative z-10 font-body text-sm tracking-wide">
-                    Enviar mensaje por WhatsApp
+                    {sent ? '¡Listo! Abriendo WhatsApp...' : 'Enviar mensaje por WhatsApp'}
                   </span>
                 </button>
               </div>

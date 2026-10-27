@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
+import type Lenis from 'lenis';
 
 interface NavigationProps {
-  lenisRef: React.MutableRefObject<any>;
+  lenisRef: React.RefObject<Lenis | null>;
 }
 
 export default function Navigation({ lenisRef }: NavigationProps) {
@@ -89,10 +90,14 @@ export default function Navigation({ lenisRef }: NavigationProps) {
         <div className="flex items-center justify-between px-6 md:px-8 lg:px-16 h-16">
           <button
             onClick={() => scrollTo('hero')}
-            className="font-display text-lg font-bold tracking-tight text-white"
+            className="flex items-center gap-2.5 font-display text-lg font-bold tracking-tight text-white group"
             aria-label="Go to top"
+            data-cursor-hover
           >
-            ALEXANDER
+            <span>ALEXANDER</span>
+            <span className="hidden sm:inline-flex items-center px-2 py-0.5 text-[9px] font-mono tracking-widest uppercase rounded border text-[#B0E0E6] border-[#B0E0E6]/30 bg-[#B0E0E6]/10">
+              Full-Stack
+            </span>
           </button>
 
           {/* Desktop Nav */}

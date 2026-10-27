@@ -8,11 +8,10 @@ export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const [hovering, setHovering] = useState(false);
-  const [isTouch, setIsTouch] = useState(false);
+  const [isTouch] = useState(() => typeof window !== 'undefined' && isTouchDevice());
 
   useEffect(() => {
-    if (isTouchDevice()) {
-      setIsTouch(true);
+    if (isTouch) {
       document.body.style.cursor = 'auto';
       return;
     }
@@ -65,7 +64,7 @@ export default function CustomCursor() {
       document.removeEventListener('mouseout', handleMouseOut);
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [isTouch]);
 
   if (isTouch) return null;
 

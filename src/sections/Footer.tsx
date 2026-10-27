@@ -1,7 +1,8 @@
 import { ArrowUp } from 'lucide-react';
+import type Lenis from 'lenis';
 
 interface FooterProps {
-  lenisRef: React.MutableRefObject<any>;
+  lenisRef: React.RefObject<Lenis | null>;
 }
 
 export default function Footer({ lenisRef }: FooterProps) {

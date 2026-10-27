@@ -6,7 +6,28 @@ import { TechBadge } from '../components/TechIcons';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const projects = [
+interface Project {
+  title: string;
+  category: string;
+  description: string;
+  image: string;
+  tech: string[];
+  liveUrl: string;
+  githubUrl: string;
+  isNew?: boolean;
+}
+
+const projects: Project[] = [
+  {
+    title: 'superN',
+    category: '2D Platform Fighter',
+    description: '«Lucha. Esquiva. Sobrevive.» — Juego de combate y plataformas 2D estilo Superfighters Deluxe con física a 60Hz, 13 armas, 21 estados de combate y bots con IA táctica.',
+    image: '/supern.png',
+    tech: ['TypeScript', 'React', 'Canvas', 'Game Engine'],
+    liveUrl: 'https://supern01.vercel.app/',
+    githubUrl: 'https://github.com/nuveneqra007-rgb',
+    isNew: true,
+  },
   {
     title: 'NOVA AI',
     category: 'Asistente IA',
@@ -150,28 +171,30 @@ export default function Projects() {
         }
       );
 
-      // Cards animation
-      gsap.fromTo(
-        cardsRef.current.filter(Boolean),
-        {
-          opacity: 0,
-          y: 40,
-          scale: 0.95,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
+      // Cards animation - individual triggers for smooth scroll
+      cardsRef.current.filter(Boolean).forEach((card) => {
+        if (!card) return;
+        gsap.fromTo(
+          card,
+          {
+            opacity: 0,
+            y: 35,
+            scale: 0.97,
           },
-        }
-      );
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.7,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 88%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -230,67 +253,103 @@ export default function Projects() {
             <div
               key={i}
               ref={(el) => { cardsRef.current[i] = el; }}
-              className="group flex flex-col h-full border rounded-xl transition-all duration-300 hover:border-[rgba(176,224,230,0.3)] hover:-translate-y-2 relative overflow-hidden"
+              className="group flex flex-col h-full border rounded-xl transition-all duration-300 hover:border-[rgba(176,224,230,0.35)] hover:-translate-y-2 relative overflow-hidden"
               style={{
                 opacity: 0,
-                borderColor: 'rgba(176, 224, 230, 0.1)',
-                backgroundColor: 'rgba(176, 224, 230, 0.02)',
+                borderColor: project.isNew ? 'rgba(64, 204, 255, 0.35)' : 'rgba(176, 224, 230, 0.1)',
+                backgroundColor: project.isNew ? 'rgba(64, 204, 255, 0.03)' : 'rgba(176, 224, 230, 0.02)',
               }}
             >
+              {/* New Launch Badge */}
+              {project.isNew && (
+                <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 px-3 py-1 rounded-full border bg-black/90 backdrop-blur-md shadow-[0_0_20px_rgba(64,204,255,0.4)]" style={{ borderColor: 'rgba(64, 204, 255, 0.6)' }}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#40ccff] animate-ping" />
+                  <span className="font-mono text-[10px] font-bold tracking-wider uppercase text-[#40ccff]">
+                    Nuevo Lanzamiento
+                  </span>
+                </div>
+              )}
+
               {/* Image */}
-              <div className="relative aspect-video overflow-hidden border-b group" style={{ borderColor: 'rgba(176, 224, 230, 0.1)' }}>
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative aspect-video overflow-hidden border-b group/img block cursor-pointer"
+                style={{ borderColor: 'rgba(176, 224, 230, 0.1)' }}
+                data-cursor-hover
+                aria-label={`Ver proyecto ${project.title} en vivo`}
+              >
                 <img
                   src={project.image}
                   alt={`Screenshot del proyecto ${project.title}`}
                   loading="lazy"
                   decoding="async"
-                  className="w-full h-full object-cover object-top transition-all duration-[6000ms] ease-in-out group-hover:object-bottom"
+                  className="w-full h-full object-cover object-center transition-all duration-700 ease-in-out group-hover/img:scale-105"
                 />
                 
                 {/* Overlay Links */}
                 <div
-                  className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                  className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 z-10"
                   style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
                 >
+                  <div
+                    className="flex items-center gap-2 px-4 py-2 border rounded-full transition-all duration-300 hover:scale-105"
+                    style={{ borderColor: 'rgba(176, 224, 230, 0.5)', color: '#B0E0E6', backgroundColor: 'rgba(0,0,0,0.6)' }}
+                  >
+                    <span className="font-body text-xs tracking-wider uppercase font-medium">
+                      {project.category.includes('Fighter') || project.category.includes('Juego') ? 'Jugar ahora' : 'Ver proyecto'}
+                    </span>
+                    <ExternalLink size={14} />
+                  </div>
+                </div>
+              </a>
+
+              {/* Content */}
+              <div className="p-6 flex flex-col flex-1">
+                <div className="flex items-center justify-between mb-3">
+                  <span
+                    className="font-body text-[10px] uppercase tracking-[0.2em] inline-block"
+                    style={{ color: project.isNew ? '#40ccff' : 'rgba(176, 224, 230, 0.8)' }}
+                  >
+                    {project.category}
+                  </span>
                   <a
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 flex items-center justify-center border rounded-full transition-all duration-300 hover:scale-110"
-                    style={{ borderColor: 'rgba(176, 224, 230, 0.5)', color: '#B0E0E6', backgroundColor: 'rgba(0,0,0,0.5)' }}
+                    className="text-[11px] font-mono tracking-wider text-[#B0E0E6]/70 hover:text-[#B0E0E6] inline-flex items-center gap-1 transition-colors"
                     data-cursor-hover
-                    aria-label={`Ver proyecto ${project.title} en vivo`}
                   >
-                    <ExternalLink size={18} />
+                    <span>{project.category.includes('Fighter') || project.category.includes('Juego') ? 'Jugar' : 'En vivo'}</span>
+                    <ExternalLink size={11} />
                   </a>
                 </div>
-              </div>
 
-              {/* Content */}
-              <div className="p-6 flex flex-col flex-1">
-                <span
-                  className="font-body text-[10px] uppercase tracking-[0.2em] mb-3 inline-block"
-                  style={{ color: 'rgba(176, 224, 230, 0.8)' }}
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group/title inline-block mb-3"
+                  data-cursor-hover
                 >
-                  {project.category}
-                </span>
-
-                <h3
-                  className="font-display text-xl font-bold mb-3"
-                  style={{ color: '#ffffff' }}
-                >
-                  {project.title}
-                </h3>
+                  <h3
+                    className="font-display text-xl font-bold transition-colors duration-200 group-hover/title:text-[#B0E0E6]"
+                    style={{ color: '#ffffff' }}
+                  >
+                    {project.title}
+                  </h3>
+                </a>
 
                 <p
                   className="font-body text-sm leading-relaxed mb-6 flex-1"
-                  style={{ color: 'rgba(255, 255, 255, 0.5)' }}
+                  style={{ color: 'rgba(255, 255, 255, 0.55)' }}
                 >
                   {project.description}
                 </p>
 
                 {/* Tech stack */}
-                <div className="flex flex-wrap gap-2 mt-auto">
+                <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-white/5">
                   {project.tech.map((tech, j) => (
                     <TechBadge key={j} name={tech} />
                   ))}
@@ -301,7 +360,9 @@ export default function Projects() {
               <div 
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-xl"
                 style={{
-                  boxShadow: 'inset 0 0 30px rgba(176, 224, 230, 0.05)'
+                  boxShadow: project.isNew
+                    ? 'inset 0 0 35px rgba(64, 204, 255, 0.12)'
+                    : 'inset 0 0 30px rgba(176, 224, 230, 0.05)',
                 }}
               />
             </div>

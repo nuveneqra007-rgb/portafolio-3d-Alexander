@@ -4,8 +4,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const stats = [
-  { value: '2+', label: 'Año de Experiencia' },
-  { value: '13+', label: 'Proyectos Completados' },
+  { value: '2+', label: 'Años de Experiencia' },
+  { value: '14+', label: 'Proyectos Completados' },
   { value: '100%', label: 'Tasa de Éxito' },
 ];
 
@@ -293,11 +293,11 @@ export default function About() {
                       </div>
                       {/* Line 7 - rol */}
                       <div className="leading-7 pl-6">
-                        <span style={{ color: '#8be9fd' }}>rol</span><span style={{ color: '#6272a4' }}>:</span> <span style={{ color: '#f1fa8c' }}>"Frontend Developer"</span><span style={{ color: '#6272a4' }}>,</span>
+                        <span style={{ color: '#8be9fd' }}>rol</span><span style={{ color: '#6272a4' }}>:</span> <span style={{ color: '#f1fa8c' }}>"Full-Stack Developer"</span><span style={{ color: '#6272a4' }}>,</span>
                       </div>
                       {/* Line 8 - stack */}
                       <div className="leading-7 pl-6">
-                        <span style={{ color: '#8be9fd' }}>stack</span><span style={{ color: '#6272a4' }}>:</span> <span style={{ color: '#f8f8f2' }}>[</span><span style={{ color: '#f1fa8c' }}>"React"</span><span style={{ color: '#6272a4' }}>,</span> <span style={{ color: '#f1fa8c' }}>"TS"</span><span style={{ color: '#6272a4' }}>,</span> <span style={{ color: '#f1fa8c' }}>"Vite"</span><span style={{ color: '#f8f8f2' }}>]</span><span style={{ color: '#6272a4' }}>,</span>
+                        <span style={{ color: '#8be9fd' }}>stack</span><span style={{ color: '#6272a4' }}>:</span> <span style={{ color: '#f8f8f2' }}>[</span><span style={{ color: '#f1fa8c' }}>"React"</span><span style={{ color: '#6272a4' }}>,</span> <span style={{ color: '#f1fa8c' }}>"Node"</span><span style={{ color: '#6272a4' }}>,</span> <span style={{ color: '#f1fa8c' }}>"TS"</span><span style={{ color: '#6272a4' }}>,</span> <span style={{ color: '#f1fa8c' }}>"Python"</span><span style={{ color: '#f8f8f2' }}>]</span><span style={{ color: '#6272a4' }}>,</span>
                       </div>
                       {/* Line 9 - status */}
                       <div className="leading-7 pl-6">
@@ -361,7 +361,7 @@ export default function About() {
                 }}
               >
                 <span className="font-mono text-[10px]" style={{ color: '#50fa7b' }}>▸</span>
-                <span className="font-mono text-[10px] sm:text-xs font-semibold tracking-wider uppercase" style={{ color: '#00ff41' }}>React 18</span>
+                <span className="font-mono text-[10px] sm:text-xs font-semibold tracking-wider uppercase" style={{ color: '#00ff41' }}>Full-Stack Dev</span>
               </div>
 
               <div

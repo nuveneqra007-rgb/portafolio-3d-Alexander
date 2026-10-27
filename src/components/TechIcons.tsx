@@ -7,7 +7,7 @@ interface TechInfo {
 
 const size = 14;
 
-export const techMap: Record<string, TechInfo> = {
+const techMap: Record<string, TechInfo> = {
   React: {
     color: '#61DAFB',
     icon: (
@@ -85,6 +85,46 @@ export const techMap: Record<string, TechInfo> = {
     icon: (
       <svg viewBox="0 0 128 128" width={size} height={size}>
         <path fill="#fff" d="M12.14 116.78L33.81 7.67l83.36 47.59zM38 16.26l-17.6 89.75 67.8-38.7zm5.43 3.16L106 55.2 43.43 90.9zm9.27 5.3l47.87 27.33L52.7 79.24z"/>
+      </svg>
+    ),
+  },
+  TypeScript: {
+    color: '#3178C6',
+    icon: (
+      <svg viewBox="0 0 128 128" width={size} height={size}>
+        <path fill="#3178C6" d="M1.5 63.91v62.5h125v-125H1.5zm100.73-5a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1A23.04 23.04 0 0180.4 109a27.68 27.68 0 01-3.87-5.24c.2-.15 1-.68 1.8-1.18l5.25-3.06 2.14-1.24a15.39 15.39 0 002.36 3.08c3.35 3.37 7.94 4.28 11.42 2.29a5.09 5.09 0 001.07-7.57c-1.12-1.32-3.26-2.52-8.58-4.73-6.1-2.54-8.71-4.07-11.15-6.57a17.85 17.85 0 01-3.64-6.5 30.54 30.54 0 01-.42-8.07 14.46 14.46 0 017.57-11.67c3-1.76 6.28-2.57 10.84-2.57a21.69 21.69 0 0110.18 2.28zM73.55 64.68h9.41v36.42H73.55zM49.36 65.21c3.07-.06 6.14 0 9.21 0v-8.54h30.82v8.54H69v36.42H59.57V65.21z"/>
+      </svg>
+    ),
+  },
+  'Node.js': {
+    color: '#5FA04E',
+    icon: (
+      <svg viewBox="0 0 128 128" width={size} height={size}>
+        <path fill="#5FA04E" d="M64 4.5l54 31.2v62.4L64 123.5l-54-31.2v-62.4L64 4.5z"/>
+        <path fill="#fff" d="M64 26.8l34.8 20.1v40.2L64 107.2 29.2 87.1V46.9L64 26.8z"/>
+      </svg>
+    ),
+  },
+  Canvas: {
+    color: '#E05A47',
+    icon: (
+      <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/>
+        <path d="m5 2 5 5"/>
+        <path d="M2 13h15"/>
+        <path d="M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z"/>
+      </svg>
+    ),
+  },
+  'Game Engine': {
+    color: '#BD34FE',
+    icon: (
+      <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect width="20" height="12" x="2" y="6" rx="6"/>
+        <path d="M12 12h.01"/>
+        <path d="M17 12h.01"/>
+        <path d="M7 12h2"/>
+        <path d="M8 11v2"/>
       </svg>
     ),
   },
