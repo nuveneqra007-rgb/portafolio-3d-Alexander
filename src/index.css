@@ -23,17 +23,9 @@
     @apply bg-black text-white;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
-    cursor: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-  }
-
-  /* Show normal cursor on touch devices */
-  @media (pointer: coarse) {
-    body {
-      cursor: auto;
-    }
   }
 
   /* Respect reduced motion preference */
@@ -116,6 +108,113 @@
 @keyframes terminalPulse {
   0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(0, 255, 65, 0.6); }
   50% { opacity: 0.4; box-shadow: 0 0 4px rgba(0, 255, 65, 0.3); }
+}
+
+@keyframes heroIconLifecycle {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(var(--rot-start, 0deg)) scale(0.72);
+  }
+  22% {
+    opacity: var(--peak-opacity, 0.22);
+    transform: translate3d(calc(var(--drift-x, 24px) * 0.22), calc(var(--drift-y, -24px) * 0.22), 0) rotate(calc(var(--rot-start, 0deg) * 0.45)) scale(1);
+  }
+  78% {
+    opacity: var(--peak-opacity, 0.22);
+    transform: translate3d(calc(var(--drift-x, 24px) * 0.78), calc(var(--drift-y, -24px) * 0.78), 0) rotate(calc(var(--rot-end, 8deg) * 0.75)) scale(0.98);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drift-x, 24px), var(--drift-y, -24px), 0) rotate(var(--rot-end, 8deg)) scale(0.76);
+  }
+}
+
+.hero-floating-icon {
+  opacity: 0;
+  will-change: transform, opacity;
+  animation-name: heroIconLifecycle;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+}
+
+@keyframes cubeRotate3d {
+  0% {
+    transform: rotateX(-20deg) rotateY(0deg) rotateZ(0deg);
+  }
+  50% {
+    transform: rotateX(20deg) rotateY(180deg) rotateZ(8deg);
+  }
+  100% {
+    transform: rotateX(-20deg) rotateY(360deg) rotateZ(0deg);
+  }
+}
+
+@keyframes cubeInnerRotate3d {
+  0% {
+    transform: rotateX(25deg) rotateY(360deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(25deg) rotateY(0deg) rotateZ(360deg);
+  }
+}
+
+@keyframes aboutOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes aboutOrbitCounter {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.about-cube-outer {
+  transform-style: preserve-3d;
+  animation: cubeRotate3d 18s linear infinite;
+}
+
+.about-cube-inner {
+  transform-style: preserve-3d;
+  animation: cubeInnerRotate3d 12s linear infinite;
+}
+
+.about-orbit-ring {
+  animation: aboutOrbit 22s linear infinite;
+}
+
+.about-orbit-item {
+  animation: aboutOrbitCounter 22s linear infinite;
+}
+
+@keyframes shieldRotate3d {
+  0% {
+    transform: rotateY(0deg) rotateX(8deg);
+  }
+  50% {
+    transform: rotateY(180deg) rotateX(-8deg);
+  }
+  100% {
+    transform: rotateY(360deg) rotateX(8deg);
+  }
+}
+
+.contact-shield-3d {
+  transform-style: preserve-3d;
+  animation: shieldRotate3d 14s linear infinite;
+}
+
+.orbit-pause-group:hover .about-orbit-ring,
+.orbit-pause-group:hover .about-orbit-item {
+  animation-play-state: paused;
 }
 
 .animate-float {

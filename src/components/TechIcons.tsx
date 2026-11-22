@@ -128,6 +128,45 @@ const techMap: Record<string, TechInfo> = {
       </svg>
     ),
   },
+  'Next.js': {
+    color: '#ffffff',
+    icon: (
+      <svg viewBox="0 0 128 128" width={size} height={size}>
+        <circle cx="64" cy="64" r="60" fill="#000" stroke="#fff" strokeWidth="6" />
+        <path d="M44 42v44h8V53.5L88.5 100c2.6-1.6 5-3.4 7.2-5.4L53.2 42H44zm36 0v31.2l8 10.3V42h-8z" fill="#fff" />
+      </svg>
+    ),
+  },
+  'Tailwind CSS': {
+    color: '#38BDF8',
+    icon: (
+      <svg viewBox="0 0 128 128" width={size} height={size}>
+        <path
+          fill="#38BDF8"
+          d="M64 32c-17.1 0-27.7 8.5-32 25.6 6.4-8.5 13.9-11.7 22.4-9.6 4.9 1.2 8.4 4.8 12.2 8.7 6.2 6.3 13.4 13.6 29.4 13.6 17.1 0 27.7-8.5 32-25.6-6.4 8.5-13.9 11.7-22.4 9.6-4.9-1.2-8.4-4.8-12.2-8.7C87.2 39.3 80 32 64 32zM32 70.4c-17.1 0-27.7 8.5-32 25.6 6.4-8.5 13.9-11.7 22.4-9.6 4.9 1.2 8.4 4.8 12.2 8.7 6.2 6.3 13.4 13.6 29.4 13.6 17.1 0 27.7-8.5 32-25.6-6.4 8.5-13.9 11.7-22.4 9.6-4.9-1.2-8.4-4.8-12.2-8.7-6.2-6.3-13.4-13.6-29.4-13.6z"
+        />
+      </svg>
+    ),
+  },
+  Zod: {
+    color: '#408AFF',
+    icon: (
+      <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" />
+        <path d="M8 9h8l-8 6h8" />
+      </svg>
+    ),
+  },
+  'Upstash Redis': {
+    color: '#00E9A3',
+    icon: (
+      <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <ellipse cx="12" cy="6" rx="8" ry="3" />
+        <path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6" />
+        <path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" />
+      </svg>
+    ),
+  },
 };
 
 export function TechBadge({ name }: { name: string }) {

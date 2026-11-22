@@ -74,7 +74,6 @@ export default function Footer({ lenisRef }: FooterProps) {
           <button
             onClick={handleScrollTop}
             className="flex items-center gap-2 group"
-            data-cursor-hover
           >
             <span
               className="font-body text-xs uppercase tracking-wider transition-colors duration-300 group-hover:text-[#B0E0E6]"

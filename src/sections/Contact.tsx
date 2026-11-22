@@ -1,543 +1,426 @@
-import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, MessageCircle, Github as GithubIcon, Linkedin, Send, ArrowUpRight, Sparkles } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { FaGithub, FaLinkedinIn, FaWhatsapp } from 'react-icons/fa';
+import { SiGmail } from 'react-icons/si';
+import { CheckCircle2, Loader2, Shield } from 'lucide-react';
 
-gsap.registerPlugin(ScrollTrigger);
+// Número de WhatsApp (reemplaza por tu número en formato internacional sin '+', ej: '5491123456789')
+const WHATSAPP_NUMBER = '18096314386';
+
+const SOCIAL_ORBIT_LINKS = [
+  {
+    name: 'WhatsApp',
+    href: `https://wa.me/${WHATSAPP_NUMBER}`,
+    icon: FaWhatsapp,
+    color: '#25D366',
+    positionClass: '-top-6 left-1/2 -translate-x-1/2',
+    isExternal: true,
+  },
+  {
+    name: 'Gmail',
+    href: 'mailto:miguelalexanderlopezmendosa23@gmail.com',
+    icon: SiGmail,
+    color: '#EA4335',
+    positionClass: 'top-1/2 -right-6 -translate-y-1/2',
+    isExternal: false,
+  },
+  {
+    name: 'GitHub',
+    href: 'https://github.com/nuveneqra007-rgb',
+    icon: FaGithub,
+    color: '#F0F6FC',
+    positionClass: '-bottom-6 left-1/2 -translate-x-1/2',
+    isExternal: true,
+  },
+  {
+    name: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/alexander-lopez-315673401/',
+    icon: FaLinkedinIn,
+    color: '#0A66C2',
+    positionClass: 'top-1/2 -left-6 -translate-y-1/2',
+    isExternal: true,
+  },
+];
+
+const SHIELD_LAYERS = [
+  { z: -14, stroke: 'rgba(0, 255, 65, 0.35)', fill: 'rgba(0, 255, 65, 0.04)' },
+  { z: 0, stroke: 'rgba(176, 224, 230, 0.78)', fill: 'rgba(10, 24, 32, 0.45)' },
+  { z: 14, stroke: 'rgba(0, 255, 65, 0.65)', fill: 'rgba(176, 224, 230, 0.06)' },
+];
 
 export default function Contact() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLHeadingElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  const infoRef = useRef<HTMLDivElement>(null);
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [focused, setFocused] = useState('');
-  const [sent, setSent] = useState(false);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Heading
-      gsap.fromTo(
-        headingRef.current,
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: headingRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
-          },
-        }
-      );
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-      // Form
-      gsap.fromTo(
-        formRef.current,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: formRef.current,
-            start: 'top 75%',
-            toggleActions: 'play none none none',
-          },
-        }
-      );
-
-      // Info cards
-      gsap.fromTo(
-        infoRef.current?.children || [],
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.12,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: infoRef.current,
-            start: 'top 75%',
-            toggleActions: 'play none none none',
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    // Número de WhatsApp (República Dominicana +1)
-    const whatsappNumber = '18096314386'; 
-    
-    const text = `¡Hola Alexander! Me interesa colaborar en un proyecto.%0A%0A*Detalles del contacto:*%0A👤 Nombre: ${encodeURIComponent(formData.name)}%0A📧 Email: ${encodeURIComponent(formData.email)}%0A%0A*Mensaje:*%0A${encodeURIComponent(formData.message)}`;
-    
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${text}`;
-    
-    // Open via anchor to avoid iframe popup restrictions
-    const link = document.createElement('a');
-    link.href = whatsappUrl;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    setSent(true);
-    setFormData({ name: '', email: '', message: '' });
-    setTimeout(() => setSent(false), 4000);
-  };
+    if (isSubmitting) return;
 
-  const contactChannels = [
-    { 
-      icon: MessageCircle, 
-      label: 'WhatsApp', 
-      description: 'Respuesta rápida y directa',
-      href: 'https://wa.me/18096314386',
-      color: '#25D366',
-    },
-    { 
-      icon: Mail, 
-      label: 'Email', 
-      description: 'miguelalexanderlopezmendosa23@gmail.com',
-      href: 'mailto:miguelalexanderlopezmendosa23@gmail.com',
-      color: '#B0E0E6',
-    },
-    { 
-      icon: GithubIcon, 
-      label: 'GitHub', 
-      description: 'Mira mi código y proyectos',
-      href: 'https://github.com/nuveneqra007-rgb',
-      color: '#f0f0f0',
-    },
-    { 
-      icon: Linkedin, 
-      label: 'LinkedIn', 
-      description: 'Conectemos profesionalmente',
-      href: 'https://www.linkedin.com/in/alexander-lopez-315673401/',
-      color: '#0A66C2',
-    },
-  ];
+    setIsSubmitting(true);
+    setIsSuccess(false);
+
+    const formattedMessage = `Hola Alexander, soy ${name.trim()}. Mi correo es ${email.trim()}. Mensaje: ${message.trim()}`;
+    const encodedText = encodeURIComponent(formattedMessage);
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedText}`;
+
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+
+    setIsSuccess(true);
+    setName('');
+    setEmail('');
+    setMessage('');
+    formRef.current?.reset();
+    setIsSubmitting(false);
+  };
 
   return (
     <section
       id="contact"
-      ref={sectionRef}
-      className="relative w-full py-32 lg:py-48 overflow-hidden"
+      className="relative w-full py-28 lg:py-40 overflow-hidden"
       style={{ backgroundColor: '#000000' }}
     >
-      {/* Subtle radial gradient background */}
+      {/* Subtle radial glow background */}
       <div
+        aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse at 30% 50%, rgba(176, 224, 230, 0.06) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(176, 224, 230, 0.04) 0%, transparent 50%)',
+          background:
+            'radial-gradient(ellipse at 26% 52%, rgba(0, 255, 65, 0.05) 0%, transparent 55%), radial-gradient(ellipse at 76% 48%, rgba(176, 224, 230, 0.06) 0%, transparent 55%)',
         }}
       />
 
-      {/* Grid background */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-30"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(176, 224, 230, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(176, 224, 230, 0.02) 1px, transparent 1px)',
-          backgroundSize: '80px 80px',
-        }}
-      />
+      {/* Subtle grid background */}
+      <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-16">
-        {/* Section header */}
-        <div className="flex items-center gap-4 mb-20">
-          <span
-            className="font-body text-xs uppercase tracking-[0.3em]"
-            style={{ color: 'rgba(176, 224, 230, 0.6)' }}
-          >
-            03
-          </span>
-          <div className="h-px flex-1" style={{ backgroundColor: 'rgba(176, 224, 230, 0.1)' }} />
-          <span
-            className="font-body text-xs uppercase tracking-[0.3em]"
-            style={{ color: 'rgba(176, 224, 230, 0.6)' }}
-          >
-            Contacto
-          </span>
-        </div>
-
-        {/* Heading */}
-        <div className="max-w-3xl mb-20">
-          <h2
-            ref={headingRef}
-            className="font-display font-bold leading-tight mb-6"
-            style={{
-              fontSize: 'clamp(2.5rem, 6vw, 5rem)',
-              color: '#ffffff',
-              opacity: 0,
-            }}
-          >
-            ¿Listo para llevar tu
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+          className="mb-16 lg:mb-20"
+        >
+          <div className="flex items-center gap-4 mb-8">
             <span
-              className="block"
+              className="font-mono text-xs uppercase tracking-[0.3em]"
+              style={{ color: 'rgba(176, 224, 230, 0.65)' }}
+            >
+              03
+            </span>
+            <div
+              className="h-px flex-1"
               style={{
-                background: 'linear-gradient(135deg, #B0E0E6 0%, #ffffff 50%, #B0E0E6 100%)',
+                background: 'linear-gradient(90deg, rgba(176, 224, 230, 0.25), rgba(0, 255, 65, 0.12))',
+              }}
+            />
+            <span
+              className="font-body text-xs uppercase tracking-[0.3em]"
+              style={{ color: 'rgba(176, 224, 230, 0.65)' }}
+            >
+              Contacto
+            </span>
+          </div>
+
+          <h2
+            className="font-display font-bold leading-tight"
+            style={{ fontSize: 'clamp(2.3rem, 4.8vw, 4.2rem)', color: '#ffffff' }}
+          >
+            Conectemos &{' '}
+            <span
+              style={{
+                background: 'linear-gradient(135deg, #B0E0E6 0%, #00ff41 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
               }}
             >
-              proyecto al siguiente nivel?
+              Colaboremos
             </span>
           </h2>
-          <p
-            className="font-body text-base lg:text-lg leading-relaxed"
-            style={{ color: 'rgba(255, 255, 255, 0.5)' }}
-          >
-            Cuéntame sobre tu idea y juntos crearemos algo extraordinario. 
-            Respondo en menos de 24 horas.
-          </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-          {/* Contact Form */}
-          <form
-            ref={formRef}
-            onSubmit={handleSubmit}
-            className="lg:col-span-7"
-            style={{ opacity: 0 }}
+        {/* Two-Column Layout: Left (3D Shield + Orbiting Links) / Right (WhatsApp Form) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-12 items-center">
+          {/* Left Column: 3D Holographic Shield & 4 Clickable Orbiting Icons */}
+          <motion.div
+            className="lg:col-span-5 flex flex-col items-center justify-center py-8"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
           >
-            <div
-              className="relative rounded-2xl overflow-hidden border p-8 md:p-10"
-              style={{
-                borderColor: 'rgba(176, 224, 230, 0.08)',
-                backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                backdropFilter: 'blur(20px)',
-                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(176, 224, 230, 0.05)',
-              }}
-            >
-              {/* Decorative corner accent */}
+            <div className="orbit-pause-group relative w-[300px] h-[300px] sm:w-[350px] sm:h-[350px] flex items-center justify-center">
+              {/* Neon Ambient Halo */}
               <div
-                className="absolute top-0 right-0 w-32 h-32 pointer-events-none"
+                aria-hidden="true"
+                className="absolute inset-6 rounded-full pointer-events-none"
                 style={{
-                  background: 'radial-gradient(circle at top right, rgba(176, 224, 230, 0.08), transparent 70%)',
+                  background:
+                    'radial-gradient(circle, rgba(0, 255, 65, 0.14) 0%, rgba(176, 224, 230, 0.08) 45%, transparent 72%)',
+                  filter: 'blur(14px)',
                 }}
               />
 
-              <div className="relative z-10 space-y-8">
-                {/* Form header */}
-                <div className="flex items-center gap-3 mb-2">
+              {/* Holographic Orbit Rings */}
+              <div
+                aria-hidden="true"
+                className="absolute inset-2 sm:inset-3 rounded-full border border-dashed pointer-events-none"
+                style={{ borderColor: 'rgba(176, 224, 230, 0.24)' }}
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-10 sm:inset-12 rounded-full border pointer-events-none"
+                style={{ borderColor: 'rgba(0, 255, 65, 0.16)' }}
+              />
+
+              {/* Orbiting Clickable Social Links */}
+              <div className="about-orbit-ring absolute inset-2 sm:inset-3 z-30 pointer-events-none">
+                {SOCIAL_ORBIT_LINKS.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div
+                      key={item.name}
+                      className={`absolute ${item.positionClass} z-30 pointer-events-auto`}
+                      style={{ pointerEvents: 'auto' }}
+                    >
+                      <a
+                        href={item.href}
+                        target={item.isExternal ? '_blank' : undefined}
+                        rel={item.isExternal ? 'noopener noreferrer' : undefined}
+                        aria-label={item.name}
+                        title={item.name}
+                        style={{ pointerEvents: 'auto' }}
+                        className="about-orbit-item group/icon relative z-30 flex items-center justify-center w-12 h-12 rounded-2xl border backdrop-blur-xl transition-all duration-300 hover:scale-110"
+                      >
+                        <span
+                          className="absolute inset-0 rounded-2xl transition-all duration-300"
+                          style={{
+                            backgroundColor: 'rgba(8, 13, 18, 0.9)',
+                            border: `1px solid ${item.color}55`,
+                            boxShadow: `0 0 18px ${item.color}30`,
+                          }}
+                        />
+                        <Icon
+                          size={20}
+                          className="relative z-10 transition-transform duration-300 group-hover/icon:scale-110"
+                          style={{ color: item.color }}
+                        />
+                        <span className="sr-only">{item.name}</span>
+                      </a>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Central 3D Holographic Shield */}
+              <div
+                className="animate-float relative z-10 pointer-events-none flex items-center justify-center"
+                style={{ perspective: '1000px' }}
+              >
+                <div className="contact-shield-3d relative w-[148px] h-[170px] flex items-center justify-center">
+                  {SHIELD_LAYERS.map((layer, idx) => (
+                    <div
+                      key={idx}
+                      className="absolute inset-0 flex items-center justify-center"
+                      style={{
+                        transform: `translateZ(${layer.z}px)`,
+                        filter:
+                          idx === 2
+                            ? 'drop-shadow(0 0 18px rgba(0, 255, 65, 0.45))'
+                            : 'drop-shadow(0 0 12px rgba(176, 224, 230, 0.35))',
+                      }}
+                    >
+                      <svg
+                        viewBox="0 0 120 140"
+                        className="w-full h-full"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M60 6L110 26V66C110 99 88.5 123.5 60 134C31.5 123.5 10 99 10 66V26L60 6Z"
+                          fill={layer.fill}
+                          stroke={layer.stroke}
+                          strokeWidth="2.2"
+                        />
+                        {idx === 1 && (
+                          <>
+                            <path
+                              d="M60 18L98 33V65C98 91 81.5 110.5 60 119.5C38.5 110.5 22 91 22 65V33L60 18Z"
+                              stroke="rgba(0, 255, 65, 0.35)"
+                              strokeWidth="1.2"
+                              strokeDasharray="4 4"
+                            />
+                            <path
+                              d="M34 62H86M60 32V104"
+                              stroke="rgba(176, 224, 230, 0.25)"
+                              strokeWidth="1"
+                            />
+                          </>
+                        )}
+                      </svg>
+                    </div>
+                  ))}
+
+                  {/* Center Neon Core Icon */}
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center"
+                    className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full border"
                     style={{
-                      background: 'linear-gradient(135deg, rgba(176, 224, 230, 0.15), rgba(176, 224, 230, 0.05))',
-                      border: '1px solid rgba(176, 224, 230, 0.1)',
+                      transform: 'translateZ(20px)',
+                      backgroundColor: 'rgba(0, 255, 65, 0.1)',
+                      borderColor: 'rgba(0, 255, 65, 0.6)',
+                      boxShadow: '0 0 24px rgba(0, 255, 65, 0.4)',
                     }}
                   >
-                    <Sparkles size={18} style={{ color: '#B0E0E6' }} />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-lg font-semibold" style={{ color: '#ffffff' }}>
-                      Envíame un mensaje
-                    </h3>
-                    <p className="font-body text-xs" style={{ color: 'rgba(255, 255, 255, 0.35)' }}>
-                      Se abrirá directamente en WhatsApp
-                    </p>
+                    <Shield size={22} color="#00ff41" />
                   </div>
                 </div>
+              </div>
+            </div>
 
-                {/* Name field */}
-                <div className="space-y-2">
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/40 mt-4 text-center">
+              Haz clic en cualquier órbita para conectar
+            </p>
+          </motion.div>
+
+          {/* Right Column: Glassmorphism WhatsApp Form */}
+          <motion.div
+            className="lg:col-span-7 w-full"
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.08 }}
+          >
+            <div
+              className="relative rounded-2xl border p-6 sm:p-8 lg:p-10 backdrop-blur-xl overflow-hidden"
+              style={{
+                backgroundColor: 'rgba(11, 16, 21, 0.72)',
+                borderColor: 'rgba(176, 224, 230, 0.16)',
+                boxShadow:
+                  '0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 45px rgba(176, 224, 230, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.08)',
+              }}
+            >
+              <div className="mb-6">
+                <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#00ff41]/80">
+                  Direct WhatsApp Uplink
+                </span>
+                <h3 className="font-display text-2xl font-bold text-white mt-1">
+                  Envíame un mensaje
+                </h3>
+              </div>
+
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
+                {/* Nombre */}
+                <div>
                   <label
-                    className="font-body text-sm font-medium block"
-                    style={{ color: 'rgba(255, 255, 255, 0.7)' }}
                     htmlFor="contact-name"
+                    className="block font-mono text-[11px] uppercase tracking-[0.18em] text-[#B0E0E6]/75 mb-2"
                   >
-                    Tu nombre
+                    Nombre
                   </label>
                   <input
                     id="contact-name"
                     type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    onFocus={() => setFocused('name')}
-                    onBlur={() => setFocused('')}
-                    placeholder="¿Cómo te llamas?"
+                    name="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     required
-                    className="placeholder:text-white/15"
-                    style={{
-                      width: '100%',
-                      padding: '14px 16px',
-                      borderRadius: '12px',
-                      border: `1px solid ${focused === 'name' ? 'rgba(176, 224, 230, 0.3)' : 'rgba(255, 255, 255, 0.08)'}`,
-                      backgroundColor: focused === 'name' ? 'rgba(176, 224, 230, 0.04)' : 'rgba(255, 255, 255, 0.03)',
-                      color: '#ffffff',
-                      outline: 'none',
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: '14px',
-                      transition: 'all 0.3s ease',
-                      boxShadow: focused === 'name' ? '0 0 0 3px rgba(176, 224, 230, 0.08)' : 'none',
-                    }}
+                    disabled={isSubmitting}
+                    placeholder="Tu nombre"
+                    className="w-full px-4 py-3 rounded-xl font-body text-sm text-white placeholder-white/30 bg-black/50 border border-white/10 focus:border-[#00ff41]/60 focus:outline-none focus:ring-1 focus:ring-[#00ff41]/30 transition-all disabled:opacity-60"
                   />
                 </div>
 
-                {/* Email field */}
-                <div className="space-y-2">
+                {/* Email */}
+                <div>
                   <label
-                    className="font-body text-sm font-medium block"
-                    style={{ color: 'rgba(255, 255, 255, 0.7)' }}
                     htmlFor="contact-email"
+                    className="block font-mono text-[11px] uppercase tracking-[0.18em] text-[#B0E0E6]/75 mb-2"
                   >
-                    Tu correo electrónico
+                    Email
                   </label>
                   <input
                     id="contact-email"
                     type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    onFocus={() => setFocused('email')}
-                    onBlur={() => setFocused('')}
-                    placeholder="correo@ejemplo.com"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="placeholder:text-white/15"
-                    style={{
-                      width: '100%',
-                      padding: '14px 16px',
-                      borderRadius: '12px',
-                      border: `1px solid ${focused === 'email' ? 'rgba(176, 224, 230, 0.3)' : 'rgba(255, 255, 255, 0.08)'}`,
-                      backgroundColor: focused === 'email' ? 'rgba(176, 224, 230, 0.04)' : 'rgba(255, 255, 255, 0.03)',
-                      color: '#ffffff',
-                      outline: 'none',
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: '14px',
-                      transition: 'all 0.3s ease',
-                      boxShadow: focused === 'email' ? '0 0 0 3px rgba(176, 224, 230, 0.08)' : 'none',
-                    }}
+                    disabled={isSubmitting}
+                    placeholder="tu_correo@ejemplo.com"
+                    className="w-full px-4 py-3 rounded-xl font-body text-sm text-white placeholder-white/30 bg-black/50 border border-white/10 focus:border-[#00ff41]/60 focus:outline-none focus:ring-1 focus:ring-[#00ff41]/30 transition-all disabled:opacity-60"
                   />
                 </div>
 
-                {/* Message field */}
-                <div className="space-y-2">
+                {/* Mensaje */}
+                <div>
                   <label
-                    className="font-body text-sm font-medium block"
-                    style={{ color: 'rgba(255, 255, 255, 0.7)' }}
                     htmlFor="contact-message"
+                    className="block font-mono text-[11px] uppercase tracking-[0.18em] text-[#B0E0E6]/75 mb-2"
                   >
-                    Cuéntame sobre tu proyecto
+                    Mensaje
                   </label>
                   <textarea
                     id="contact-message"
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    onFocus={() => setFocused('message')}
-                    onBlur={() => setFocused('')}
-                    placeholder="Describe tu idea, los objetivos del proyecto y cómo puedo ayudarte..."
+                    name="message"
+                    rows={4}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                     required
-                    rows={5}
-                    className="placeholder:text-white/15"
-                    style={{
-                      width: '100%',
-                      padding: '14px 16px',
-                      borderRadius: '12px',
-                      border: `1px solid ${focused === 'message' ? 'rgba(176, 224, 230, 0.3)' : 'rgba(255, 255, 255, 0.08)'}`,
-                      backgroundColor: focused === 'message' ? 'rgba(176, 224, 230, 0.04)' : 'rgba(255, 255, 255, 0.03)',
-                      color: '#ffffff',
-                      outline: 'none',
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: '14px',
-                      resize: 'none' as const,
-                      transition: 'all 0.3s ease',
-                      boxShadow: focused === 'message' ? '0 0 0 3px rgba(176, 224, 230, 0.08)' : 'none',
-                    }}
+                    disabled={isSubmitting}
+                    placeholder="Cuéntame sobre tu proyecto, idea o colaboración..."
+                    className="w-full px-4 py-3 rounded-xl font-body text-sm text-white placeholder-white/30 bg-black/50 border border-white/10 focus:border-[#00ff41]/60 focus:outline-none focus:ring-1 focus:ring-[#00ff41]/30 transition-all resize-none disabled:opacity-60"
                   />
                 </div>
 
-                {/* Submit button */}
-                <button
-                  type="submit"
-                  className="group relative flex items-center justify-center gap-3 w-full px-8 py-4 rounded-xl overflow-hidden transition-all duration-500"
-                  style={{
-                    background: 'linear-gradient(135deg, #B0E0E6, #87CEEB)',
-                    color: '#000000',
-                    fontWeight: 600,
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget;
-                    el.style.transform = 'translateY(-2px)';
-                    el.style.boxShadow = '0 12px 40px rgba(176, 224, 230, 0.25), 0 0 0 1px rgba(176, 224, 230, 0.3)';
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget;
-                    el.style.transform = 'translateY(0)';
-                    el.style.boxShadow = 'none';
-                  }}
-                  data-cursor-hover
-                >
-                  {/* Shimmer effect */}
+                {/* Success Message */}
+                {isSuccess && (
                   <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    role="status"
+                    className="flex items-center gap-2.5 px-4 py-3 rounded-xl border font-mono text-xs"
                     style={{
-                      background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 45%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.2) 55%, transparent 60%)',
-                      backgroundSize: '200% 100%',
-                      animation: 'shimmer 2s infinite linear',
-                    }}
-                  />
-                  <Send size={18} className="relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
-                  <span className="relative z-10 font-body text-sm tracking-wide">
-                    {sent ? '¡Listo! Abriendo WhatsApp...' : 'Enviar mensaje por WhatsApp'}
-                  </span>
-                </button>
-              </div>
-            </div>
-          </form>
-
-          {/* Contact Info */}
-          <div ref={infoRef} className="lg:col-span-5 space-y-5">
-            {/* Availability card */}
-            <div
-              className="p-6 rounded-2xl border"
-              style={{
-                borderColor: 'rgba(176, 224, 230, 0.08)',
-                backgroundColor: 'rgba(176, 224, 230, 0.03)',
-                opacity: 0,
-              }}
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="relative flex items-center justify-center">
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{
-                      backgroundColor: '#4ade80',
-                      boxShadow: '0 0 12px rgba(74, 222, 128, 0.4)',
-                    }}
-                  />
-                  <div
-                    className="absolute w-3 h-3 rounded-full animate-ping"
-                    style={{
-                      backgroundColor: '#4ade80',
-                      opacity: 0.4,
-                    }}
-                  />
-                </div>
-                <span className="font-display text-sm font-semibold" style={{ color: '#4ade80' }}>
-                  Disponible para nuevos proyectos
-                </span>
-              </div>
-              <p
-                className="font-body text-sm leading-relaxed"
-                style={{ color: 'rgba(255, 255, 255, 0.5)' }}
-              >
-                ¿Tienes una idea en mente? Estoy disponible para proyectos freelance, 
-                colaboraciones y oportunidades a tiempo completo. ¡Hablemos!
-              </p>
-            </div>
-
-            {/* Contact channels */}
-            {contactChannels.map((channel, i) => {
-              const Icon = channel.icon;
-              return (
-                <a
-                  key={i}
-                  href={channel.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-4 p-5 rounded-2xl border transition-all duration-300"
-                  style={{
-                    borderColor: 'rgba(255, 255, 255, 0.06)',
-                    backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                    textDecoration: 'none',
-                    opacity: 0,
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget;
-                    el.style.borderColor = 'rgba(176, 224, 230, 0.15)';
-                    el.style.backgroundColor = 'rgba(176, 224, 230, 0.04)';
-                    el.style.transform = 'translateY(-2px)';
-                    el.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.3)';
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget;
-                    el.style.borderColor = 'rgba(255, 255, 255, 0.06)';
-                    el.style.backgroundColor = 'rgba(255, 255, 255, 0.02)';
-                    el.style.transform = 'translateY(0)';
-                    el.style.boxShadow = 'none';
-                  }}
-                  data-cursor-hover
-                >
-                  <div
-                    className="w-12 h-12 flex items-center justify-center flex-shrink-0 rounded-xl transition-all duration-300"
-                    style={{
-                      backgroundColor: `${channel.color}10`,
-                      border: `1px solid ${channel.color}20`,
+                      backgroundColor: 'rgba(0, 255, 65, 0.08)',
+                      borderColor: 'rgba(0, 255, 65, 0.45)',
+                      color: '#00ff41',
+                      boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)',
                     }}
                   >
-                    <Icon size={20} style={{ color: channel.color }} />
+                    <CheckCircle2 size={16} className="shrink-0" />
+                    <span>¡Redirigiendo a WhatsApp!</span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div
-                      className="font-display text-sm font-semibold mb-0.5"
-                      style={{ color: '#ffffff' }}
-                    >
-                      {channel.label}
-                    </div>
-                    <div
-                      className="font-body text-xs truncate"
-                      style={{ color: 'rgba(255, 255, 255, 0.4)' }}
-                    >
-                      {channel.description}
-                    </div>
-                  </div>
-                  <ArrowUpRight
-                    size={16}
-                    className="flex-shrink-0 transition-all duration-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    style={{ color: '#B0E0E6' }}
-                  />
-                </a>
-              );
-            })}
+                )}
 
-            {/* Response time info */}
-            <div
-              className="flex items-center gap-4 p-5 rounded-2xl border"
-              style={{
-                borderColor: 'rgba(255, 255, 255, 0.06)',
-                backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                opacity: 0,
-              }}
-            >
-              <div className="space-y-3 w-full">
-                <div className="flex items-center justify-between">
-                  <span className="font-body text-xs uppercase tracking-wider" style={{ color: 'rgba(255, 255, 255, 0.35)' }}>
-                    Tiempo de respuesta
-                  </span>
-                  <span className="font-display text-sm font-semibold" style={{ color: '#B0E0E6' }}>
-                    {'< 24h'}
-                  </span>
-                </div>
-                <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255, 255, 255, 0.06)' }}>
-                  <div
-                    className="h-full rounded-full"
-                    style={{
-                      width: '90%',
-                      background: 'linear-gradient(90deg, #B0E0E6, #87CEEB)',
-                      boxShadow: '0 0 10px rgba(176, 224, 230, 0.3)',
-                    }}
-                  />
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="font-body text-xs uppercase tracking-wider" style={{ color: 'rgba(255, 255, 255, 0.35)' }}>
-                    Ubicación
-                  </span>
-                  <span className="font-body text-sm" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>
-                    🌎 Disponible mundial
-                  </span>
-                </div>
-              </div>
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-display font-semibold text-sm uppercase tracking-wider border transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.01]"
+                  style={{
+                    backgroundColor: 'rgba(37, 211, 102, 0.14)',
+                    borderColor: 'rgba(37, 211, 102, 0.5)',
+                    color: '#25D366',
+                    boxShadow: '0 0 25px rgba(37, 211, 102, 0.18)',
+                  }}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span>Preparando...</span>
+                    </>
+                  ) : (
+                    <>
+                      <FaWhatsapp size={18} />
+                      <span>Enviar por WhatsApp</span>
+                    </>
+                  )}
+                </button>
+              </form>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

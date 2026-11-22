@@ -92,7 +92,6 @@ export default function Navigation({ lenisRef }: NavigationProps) {
             onClick={() => scrollTo('hero')}
             className="flex items-center gap-2.5 font-display text-lg font-bold tracking-tight text-white group"
             aria-label="Go to top"
-            data-cursor-hover
           >
             <span>ALEXANDER</span>
             <span className="hidden sm:inline-flex items-center px-2 py-0.5 text-[9px] font-mono tracking-widest uppercase rounded border text-[#B0E0E6] border-[#B0E0E6]/30 bg-[#B0E0E6]/10">
@@ -111,8 +110,7 @@ export default function Navigation({ lenisRef }: NavigationProps) {
                   color: activeSection === item.id ? '#B0E0E6' : 'rgba(255, 255, 255, 0.5)',
                 }}
                 aria-current={activeSection === item.id ? 'page' : undefined}
-                data-cursor-hover
-              >
+                  >
                 {item.label}
                 {activeSection === item.id && (
                   <span
