@@ -22,6 +22,15 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: 'TuFarmacia',
+    category: 'E-Commerce / Salud',
+    description: 'Sistema integral de farmacia en línea con catálogo de medicamentos, control de lote, validación clínica Rx y carrito.',
+    image: '/assets/aistudio/image_8909c91f.png',
+    tech: ['JavaScript', 'PLpgSQL', 'Python', 'CSS3', 'HTML5'],
+    liveUrl: 'https://sistema-de-farmacia.vercel.app/',
+    githubUrl: 'https://github.com/nuveneqra007-rgb/backend',
+  },
+  {
     title: 'SecScanner',
     category: 'Threat Intelligence',
     description: 'Plataforma de Threat Intelligence y análisis forense en tiempo real para URLs, IPs, hashes y APKs.',
@@ -29,7 +38,6 @@ const projects: Project[] = [
     tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Upstash Redis'],
     liveUrl: 'https://secscanner.dpdns.org/',
     githubUrl: 'https://github.com/nuveneqra007-rgb/secscanner0.1',
-    isNew: true,
   },
   {
     title: 'superN',
@@ -347,7 +355,7 @@ function GlideCard({
 
           {/* Compact Tech Stack Pills */}
           <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/10 mt-auto">
-            {project.tech.slice(0, 4).map((tech) => (
+            {project.tech.slice(0, 5).map((tech) => (
               <TechBadge key={tech} name={tech} />
             ))}
           </div>
