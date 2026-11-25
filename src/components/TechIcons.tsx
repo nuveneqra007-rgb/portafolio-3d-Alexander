@@ -39,7 +39,29 @@ const techMap: Record<string, TechInfo> = {
       </svg>
     ),
   },
+  CSS: {
+    color: '#1572B6',
+    icon: (
+      <svg viewBox="0 0 128 128" width={size} height={size}>
+        <path fill="#1572B6" d="M18.81 95.03L8.62 4h110.76l-10.2 90.96L64.01 124z"/>
+        <path fill="#33A9DC" d="M64 112.9l36.95-10.24L109 13.4H64z"/>
+        <path fill="#fff" d="M64 51.07h18.68l1.33-14.7H64V22.4h34.22L97.88 26l-3.49 38.07H64zm0 41.17l-.07.02-15.72-4.25-.99-11.31H33.1l1.96 22 28.87 8.02.07-.02z"/>
+        <path fill="#EBEBEB" d="M64 51.07v14h-17.3l-1.43-14H64zm0-28.67v13.97H30.62l-.42-4.48-.87-9.49H64z"/>
+      </svg>
+    ),
+  },
   HTML5: {
+    color: '#E34F26',
+    icon: (
+      <svg viewBox="0 0 128 128" width={size} height={size}>
+        <path fill="#E44D26" d="M19.04 113.3L8.69 0h110.62l-10.37 113.27L64.39 124z"/>
+        <path fill="#F16529" d="M64 116.44l36.49-10.12 8.88-99.47H64z"/>
+        <path fill="#EBEBEB" d="M64 52.45H45.79l-1.27-14.05H64V24.58H28.36l.33 3.65 3.37 37.87H64zm0 39.07l-.07.02-15.32-4.14-1-11H33.91l1.9 21.33 28.12 7.79.07-.02z"/>
+        <path fill="#fff" d="M64 52.45v13.82h16.93l-1.6 17.82-15.33 4.14v14.29l28.14-7.8.2-2.33 3.23-36.12.33-3.65H64zm0-27.87v13.82h33.4l.28-3.06.63-6.94.33-3.82z"/>
+      </svg>
+    ),
+  },
+  HTML: {
     color: '#E34F26',
     icon: (
       <svg viewBox="0 0 128 128" width={size} height={size}>
@@ -168,6 +190,16 @@ const techMap: Record<string, TechInfo> = {
     ),
   },
   PLpgSQL: {
+    color: '#336791',
+    icon: (
+      <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <ellipse cx="12" cy="5" rx="9" ry="3" />
+        <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5" />
+        <path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3" />
+      </svg>
+    ),
+  },
+  PostgreSQL: {
     color: '#336791',
     icon: (
       <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
